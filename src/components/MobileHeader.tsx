@@ -56,7 +56,7 @@ const MobileHeader: React.FC = () => {
 
       {/* Center - Title or Logo */}
       <Text fw={700} size="lg">
-      Khelo Dimag Se
+      KridaVyuha
       </Text>
 
       {/* Rightmost - Logout */}
