@@ -16,7 +16,7 @@ const Header: React.FC = () => {
     >
       {/* Left side - Logo */}
     <Text fw={700} size="lg" px={16}>
-      Khelo Dimag Se
+      Kridavyuha
     </Text>
 
       {/* Right side - Navigation */}
