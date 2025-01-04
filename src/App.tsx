@@ -2,19 +2,14 @@ import React, { useEffect } from 'react';
 import { TradeScreen } from './screens/TradeScreen';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { LeaguesScreen } from './screens/LeaguesScreen';
-import { CreateLeague } from './screens/CreateLeague';
 import UserProfile from './screens/UserProfile';
-import Header from './components/Header';
-import MobileHeader from './components/MobileHeader';
 import LoginScreen from './screens/LoginScreen';
-import { MantineGraph } from './components/MantineGraph';
+import { PlayerGraph } from './screens/TradeScreen/PlayerGraph';
 import { PortfolioScreen } from './screens/PortfolioScreen';
 import { useStores } from './logic/Providers/StoreProviders';
 import { Observer } from 'mobx-react-lite';
 import { styled } from 'styled-components';
-import RightFooterIndex from './components/RightFooter.tsx';
 import TopBar from './components/TopBar.tsx';
-import LeftFooterIndex from './components/LeftFooter.tsx';
 import BottomBar from './components/BottomBar';
 
 
@@ -65,10 +60,9 @@ const App: React.FC = () => {
                 <Routes>
                 <Route path="/profile" element={<UserProfile />} />
                 <Route path="/trade" element={<TradeScreen />} />
-                <Route path="/trade/graph" element={<MantineGraph />} />
+                <Route path="/trade/graph" element={<PlayerGraph />} />
                 <Route path="/leagues" element={<LeaguesScreen />} />
                 <Route path="/portfolio" element={<PortfolioScreen />} />
-                <Route path="/leagues/create" element={<CreateLeague />} />
                 <Route path="/" element={<LoginScreen />} />
                 </Routes>
             </SApp>
