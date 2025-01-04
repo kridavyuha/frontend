@@ -1,32 +1,18 @@
 import React, { useState } from 'react';
 import { Card, TextInput, PasswordInput, Button } from '@mantine/core';
+import { useStores } from '../../logic/Providers/StoreProviders';
 
 const LoginScreen: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const handleSubmit = (event: React.FormEvent) => {
+    const {authStore} = useStores();
+
+    const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
-        // Handle login logic here
-        console.log('Username:', username);
-        console.log('Password:', password);
-        fetch('http://localhost:8080/login', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ user_name: username, password: password }),
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                const { token } = data;
-                localStorage.setItem('token', token);
-                console.log('Success:', data);
-                window.location.href = '/leagues';
-            })
-            .catch((error) => {
-                console.error('Error:', error);
-            });
+        await authStore.login(username, password);
+        window.location.href = `/leagues`;
+
     };
 
     return (
