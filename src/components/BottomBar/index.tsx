@@ -3,6 +3,8 @@ import { Observer } from "mobx-react-lite";
 import { Home, User, PlusSquare, Globe } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import { useStores } from "../../logic/Providers/StoreProviders";
+import { GoTrophy } from "react-icons/go";
+import { HiOutlineBanknotes } from "react-icons/hi2";
 
 function BottomBar() {
   const mantineTheme = useMantineTheme();
@@ -24,7 +26,7 @@ function BottomBar() {
                 // appStore.setNavigationState(0);
               }}
             >
-              <Home size={"20"} color="grey"/>
+              <GoTrophy  size={"20"} color="grey"/>
             </ActionIcon>
             <ActionIcon
              color={
@@ -35,7 +37,7 @@ function BottomBar() {
                 // appStore.setNavigationState(1);
               }}
             >
-              <Globe size={"20"} color="grey"/>
+              <HiOutlineBanknotes size={"20"} color="grey"/>
             </ActionIcon>
      
             <ActionIcon
