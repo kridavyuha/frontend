@@ -1,10 +1,10 @@
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable, runInAction } from "mobx";
 import { MLeague } from "../Model/MLeague";
 import { LeagueRepo } from "../Repo/LeagueRepo";
 
 export class LeagueStore{
     token: string | null;
-    leagues: MLeague[]= [];
+    leagues: MLeague[] = [];
     isLoading: boolean = false;
     leagueRepo: LeagueRepo
 
@@ -14,6 +14,7 @@ export class LeagueStore{
         this.leagueRepo = leagueRepo;
     }
 
+   @action
     async getLeagues() {
         this.setLoading(true);
         const leagues: MLeague[] = await this.leagueRepo.getLeagues(this.token || "");
@@ -26,12 +27,14 @@ export class LeagueStore{
         const status :boolean = await this.leagueRepo.registreLeague(league_id, this.token || "");
         if(status){
             // for the league_id mark is registered as true
-            const league = this.leagues.find((league) => league.league_id === league_id);
+            const league = this.leagues?.find((league) => league.league_id === league_id);
             if (league) {
                 league.is_registered = true;
                 league.registered += 1;
             }
-            this.setLeagues(this.leagues);
+            if (this.leagues) {
+                this.setLeagues(this.leagues);
+            }
         }
         this.setLoading(false);
     }
@@ -39,7 +42,9 @@ export class LeagueStore{
     async deleteLeague(league_id: string) {
         this.setLoading(true);
         await this.leagueRepo.deleteLeague(league_id, this.token || "");
-        this.setLeagues(this.leagues.filter((league) => league.league_id !== league_id));
+        if (this.leagues) {
+            this.setLeagues(this.leagues.filter((league) => league.league_id !== league_id));
+        }
         this.setLoading(false);
     }
 
@@ -50,15 +55,17 @@ export class LeagueStore{
         this.setLoading(false);
     }
 
-    async setLoading(state: boolean) {
+
+     @action
+     setLoading(state: boolean) {
         this.isLoading = state;
     }   
-
-    async setLeagues(leagues: MLeague[]) {
+    @action
+     setLeagues(leagues: MLeague[]) {
         this.leagues = leagues;
     }
 
-    async setToken(token: string) {
+     setToken(token: string) {
         this.token = token;
     }
 }
