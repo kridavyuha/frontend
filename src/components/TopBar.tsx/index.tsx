@@ -1,6 +1,6 @@
 import { useStores } from "../../logic/Providers/StoreProviders";
 import TopBarDesktop from "./TopBarDesktop";
-import TopBarMobile from "./TopBarMobile";
+import {TopBarMobile} from "./TopBarMobile";
 
 
 function TopBar() {
