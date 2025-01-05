@@ -1,115 +1,90 @@
-import React from 'react';
-import { MantineProvider, Container, Title, Card } from '@mantine/core';
-import { Graph } from './components/Graph';
-import { CardLayout } from './components/PlayerCard';
+import React, { useEffect } from 'react';
 import { TradeScreen } from './screens/TradeScreen';
-import RightFooter from './components/RightFooter.tsx';
-import { LeftFooter } from './components/LeftFooter.tsx';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { LeaguesScreen } from './screens/LeaguesScreen';
-import { CreateLeague } from './screens/CreateLeague';
-import UserProfile from './screens/UserProfile';
-import Header from './components/Header';
-import MobileHeader from './components/MobileHeader';
+import UserProfile from './screens/ProfileScreen';
 import LoginScreen from './screens/LoginScreen';
-import { MantineGraph } from './components/MantineGraph';
+import { PlayerGraph } from './screens/TradeScreen/PlayerGraph';
 import { PortfolioScreen } from './screens/PortfolioScreen';
+import { useStores } from './logic/Providers/StoreProviders';
+import { Observer } from 'mobx-react-lite';
+import { styled } from 'styled-components';
+import TopBar from './components/TopBar.tsx';
+import BottomBar from './components/BottomBar';
+import { WIPScreen } from './screens/WIPScreen';
+import { ProtectedRoutes } from './ProtectedRoute';
 
 
-// Sample data for the player's performance
+const SApp = styled.section`
+  width: 100%;
+  max-width: 600px;
+  overflow: auto;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+`;
 
-      
+const App: React.FC = () => {
+  const store = useStores();
 
-      const App: React.FC = () => {
+  function handleScreenWidthChanges() {
+    store.appStore.setDeviceWidth(window.innerWidth);
+    if (window.innerWidth <= 700) {
+      store.appStore.setIsPhone(true);
+    } else if (window.innerWidth <= 1250) {
+      store.appStore.setIsTablet(true);
+    } else {
+      store.appStore.setIsDesktop(true);
+    }
+  }
+
+  useEffect(() => {
+    handleScreenWidthChanges();
+    window.addEventListener('resize', handleScreenWidthChanges);
+  }, []);
+
+  return (
+    <Observer>
+      {() => {
+        const { appStore } = store;
         return (
-          <MantineProvider>
-              <Router>
-                <div className="desktop-only">
-              <Header />
-                </div>
-              <div className="mobile-only">
-              <MobileHeader />
-              </div>
-              <div style={{
-              display: 'flex',
-              flexDirection: 'row',
-              height: '100vh',
-              width: '100%',
-              backgroundColor: '#f0f0f0',
-              }}>
-              {/* <div className="desktop-only">
-                <div style={{ marginLeft: '15px' }}>
-                    <LeftFooter />
-                  </div>
-                    <div style={{ position: 'absolute', right: '0', marginRight: '15px' }}>
-                    <RightFooter />
-                    </div>
-              </div> */}
-                
+          <Router>
+            {/* {appStore.isDesktop && <RightFooterIndex/>} */}
 
-              <Routes>
-                <Route
-                path="/profile"
-                element={
-                  <div className="center-container">
-                    <UserProfile />
-                    {/* Hello Worl This is Rithvik coming again... */}
-                  </div>
-                }
-                />
-                <Route
-                path="/trade"
-                element={
-                  <div className="center-container">
-                  <TradeScreen />
-                  </div>
-                }
-                />
-                <Route
-                path="/trade/graph"
-                element={
-                  <div className="center-container">
-                  <MantineGraph />
-                  </div>
-                }
-                />
-                <Route
-                path="/leagues"
-                element={
-                  <div className="center-container">
-                    <LeaguesScreen />
-                  </div>
-                }
-              />
-              <Route
-                path="/portfolio"
-                element={
-                  <div className="center-container">
-                    <PortfolioScreen />
-                  </div>
-                }
-              />
-            <Route
-              path="/leagues/create"
-              element={
-                <div className="center-container">
-                  <CreateLeague />
-                </div>
-              }
-            />
-                <Route path="/" element={
-                <div className="center-container" >
-                  <h1 style={{ textAlign: 'center', marginBottom: '20px'}}>Welcome to the Strategic Cricket App</h1>
-                  <LoginScreen />
-                </div>
-                } />
-              </Routes>
+            <SApp
+              style={{
+                marginBottom: `${appStore.isPhone ? "70px" : "0px"}`
+              }}
+              className={!appStore.isPhone ? "mx-3 " : ""}
+            >
+            {<TopBar/>}
+            {appStore.isPhone && <BottomBar />}
+                <Routes>
+                  <Route path="/" element={<LoginScreen />} />
 
-         
-              </div>
-              </Router>
-          </MantineProvider>
+                  <Route element={<ProtectedRoutes />}>
+
+                  <Route path="/profile" element={<UserProfile />} />
+                  <Route path="/trade" element={<TradeScreen />} />
+                  <Route path="/trade/graph" element={<PlayerGraph />} />
+                  <Route path="/leagues" element={<LeaguesScreen />} />
+                  <Route path="/portfolio" element={<PortfolioScreen />} />
+                  <Route path="/notifications" element={<WIPScreen/>}/>
+                  <Route path="/portfolios" element={<WIPScreen/>}/>
+                  <Route path="/leaderboard" element={<WIPScreen/>}/>
+                  <Route path="/rules" element={<WIPScreen/>}/>
+                  <Route path="/feedback" element={<WIPScreen/>}/>
+                  <Route path="/settings" element={<WIPScreen/>}/>
+                  
+                  </Route>
+                </Routes>
+            </SApp>
+            {/* {!appStore.isPhone && <LeftFooterIndex />} */}
+          </Router>
         );
-      };
+      }}
+    </Observer>
+  );
+};
 
 export default App;
