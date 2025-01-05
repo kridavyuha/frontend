@@ -30,5 +30,23 @@ export class AuthRepo {
         });
       }
     }
+
+    async logout(token: string): Promise<string>{
+      try {
+        console.log("logout", token);
+        const res = await this.rq.Post(`${this.baseUrl}`, {
+          token
+        });
+        const {body} = await CheckResponse(res, 200);
+        return body.message
+      } catch (err: any) {
+        throw ThrowFor(err, {
+          401: "Unauthorized",
+          404: "No such user account exists.",
+          400: "Token missing."
+        });
+      }
+    }
+
   
 }
