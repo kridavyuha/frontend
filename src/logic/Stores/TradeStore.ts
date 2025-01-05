@@ -5,12 +5,12 @@ import { MTimeSeries } from "../Model/MTimeSeries";
 
 export class TradeStore{
     token : string = "";
-    entities: MTradeEntity[]  = [];
-    isLoading: boolean = false;
+    entities: MTradeEntity[]| null  = null;
     tradeRepo: TradeRepo;
     match_id: string  = '';
     league_id: string = '';
     points: MTimeSeries[] = [];
+    isLoading: boolean = false; 
 
     constructor(tradeRepo: TradeRepo) {
         makeAutoObservable(this);
@@ -20,33 +20,28 @@ export class TradeStore{
 
 
     async getEntities(league_id: string) {
-        this.setLoading(true);
+        this.isLoading = true;
         const trades = await this.tradeRepo.getEntities(this.token, league_id);
         console.log(trades);
         this.setEntities(trades);
-        this.setLoading(false);
+        this.isLoading = false;
+     
     }
 
     async buyEntity(entity_id: string, shares: number) {
-        this.setLoading(true);
         await this.tradeRepo.tranEntity(this.token, entity_id, shares, this.league_id || "", "buy");
         this.getEntities(this.league_id || "");
-        this.setLoading(false);
     }
 
     async sellEntity(entity_id: string, shares: number) {
-        this.setLoading(true);
         await this.tradeRepo.tranEntity(this.token, entity_id, shares, this.league_id || "", "sell");
         this.getEntities(this.league_id || "");
-        this.setLoading(false);
     }
 
     async getPlayerGraph(player_id: string, league_id: string) {
-        this.setLoading(true);
         console.log(player_id, this.league_id);
         const player: string[]=await this.tradeRepo.getPlayerGraph(this.token, player_id, league_id);
         if (player.length === 0) {
-            this.setLoading(false);
             return;
         }
         const formattedData = player.map((item: string) => {
@@ -59,13 +54,8 @@ export class TradeStore{
         console.log(formattedData);
         this.setPoints(formattedData);
         console.log(toJS(this.getPoints()));
-        this.setLoading(false);
     }
 
-
-    setLoading(state: boolean) {
-        this.isLoading = state;
-    }
     
     setToken(token: string) {
         this.token = token;
