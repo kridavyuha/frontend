@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { useStores } from "../../logic/Providers/StoreProviders";
 import { GoTrophy } from "react-icons/go";
 import { HiOutlineBanknotes } from "react-icons/hi2";
+import { IoIosNotificationsOutline } from "react-icons/io";
 
 function BottomBar() {
   const mantineTheme = useMantineTheme();
@@ -16,54 +17,20 @@ function BottomBar() {
       {() => {
         const { appStore } = stores;
         return (
-          <div className="fixed bottom-0 right-0 left-0 z-50 flex h-16 items-center justify-around border border-solid border-transparent border-t-gray-200 bg-gray-100 shadow-md">
-            <ActionIcon
-                color={
-                     "transparent"
-                }
-              onClick={() => {
-                // navigate("/feed");
-                // appStore.setNavigationState(0);
-              }}
-            >
-              <GoTrophy  size={"20"} color="grey"/>
+            <div className="fixed bottom-0 right-0 left-0 z-50 flex h-16 items-center justify-around border border-solid border-transparent border-t-gray-200 bg-gray-100 shadow-md">
+            <ActionIcon variant="transparent" onClick={() => {navigate("/leagues")}}>
+               <GoTrophy  size={"20"} color="grey"/>
             </ActionIcon>
-            <ActionIcon
-             color={
-                "transparent"
-           }
-              onClick={() => {
-                // navigate("/explore");
-                // appStore.setNavigationState(1);
-              }}
-            >
+            <ActionIcon variant="transparent" onClick={() => {navigate("/portfolios")}}>
               <HiOutlineBanknotes size={"20"} color="grey"/>
             </ActionIcon>
-     
-            <ActionIcon
-               color={
-                "transparent"
-           }
-              onClick={() => {
-                // navigate("/notifications");
-                // appStore.setNavigationState(3);
-              }}
-              
-            >
-                 <Globe size={"20"} color="grey"/>
+            <ActionIcon variant="transparent" onClick={() => {navigate("/notifications")}}>
+               <IoIosNotificationsOutline  size={"25"} color="grey"/>
             </ActionIcon>
-            <ActionIcon
-                color={
-                    "transparent"
-               }
-              onClick={() => {
-                // navigate("/profile");
-                // appStore.setNavigationState(4);
-              }}
-            >
+            <ActionIcon variant="transparent" onClick={() => {navigate("/profile")}}>
               <User size={"20"} color="grey"/>
             </ActionIcon>
-          </div>
+            </div>
         );
       }}
     </Observer>
