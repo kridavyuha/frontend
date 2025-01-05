@@ -3,13 +3,15 @@ import {AppStore} from "../Stores/AppStore";
 import { AuthStore } from "../Stores/AuthStore";
 import { LeagueStore } from "../Stores/LeagueStore";
 import { TradeStore } from "../Stores/TradeStore";
+import { ProfileStore } from "../Stores/ProfileStore";
 
 interface IStoresContext {
 
     appStore: AppStore;
     authStore: AuthStore;
     leagueStore: LeagueStore;
-    tradeStore: TradeStore
+    tradeStore: TradeStore;
+    profileStore: ProfileStore
    
   }
   
