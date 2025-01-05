@@ -11,6 +11,8 @@ import { LeagueRepo } from "./logic/Repo/LeagueRepo";
 import { LeagueStore } from "./logic/Stores/LeagueStore";
 import { TradeStore } from "./logic/Stores/TradeStore";
 import { TradeRepo } from "./logic/Repo/TradeRepo";
+import { ProfileStore } from "./logic/Stores/ProfileStore";
+import { ProfileRepo } from "./logic/Repo/ProfileRepo";
 
 interface ProvidedAppProps {
     children?: React.ReactNode;
@@ -25,6 +27,7 @@ interface ProvidedAppProps {
     const authStore = new AuthStore(new AuthRepo(BASE_URL+"/login",rq));
     const leagueStore = new LeagueStore(new LeagueRepo(BASE_URL+"/leagues",rq));
     const tradeStore = new TradeStore(new TradeRepo(BASE_URL+"/trade",rq));
+    const profileStore = new ProfileStore(new ProfileRepo(BASE_URL+"/profile",rq));
 
     return (
       <div>
@@ -33,7 +36,8 @@ interface ProvidedAppProps {
             appStore,
             authStore,
             leagueStore,
-            tradeStore
+            tradeStore,
+            profileStore
           }}
         >
           {
