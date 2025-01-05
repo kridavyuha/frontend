@@ -3,42 +3,11 @@ import { Card, Text, Group, Badge, Button } from '@mantine/core';
 import { AiOutlineDelete } from 'react-icons/ai';
 import { MLeague } from '../../logic/Model/MLeague';
 import { useStores } from '../../logic/Providers/StoreProviders';
+import { useNavigate } from 'react-router-dom';
 
 interface LeagueCardsProps {
     data: MLeague;
 }
-
-
-export const handleLeagues = (leagues: LeagueCardsProps) => {
-    console.log("League Id :", leagues.data.league_id);
-    console.log("Match Id :", leagues.data.match_id);
-
-    window.location.href = `/trade?leagueId=${leagues.data.league_id}`;
-};
-
-
-export const handleRegister = (leagues: LeagueCardsProps) => {
-
-    const token = localStorage.getItem('token');
-
-    fetch(`http://localhost:8080/register?league_id=${leagues.data.league_id}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify({ league_id: leagues.data.league_id }),
-    })
-    .then(response => response.json())
-    .then(data => {
-        console.log('Success:', data);
-        window.location.href = '/leagues';
-    })
-    .catch((error) => {
-        console.error('Error:', error);
-    });
-}
-
 
 
 
@@ -46,6 +15,7 @@ export const LeagueCards: React.FC<LeagueCardsProps> = (props: LeagueCardsProps)
     const { league_id, entry_fee, league_status, capacity, team_a, team_b, registered, users_registered, match_id, is_registered } = props.data;
 
     const {tradeStore,leagueStore} = useStores();
+    const navigate = useNavigate();
     
    
     return (
@@ -65,7 +35,7 @@ export const LeagueCards: React.FC<LeagueCardsProps> = (props: LeagueCardsProps)
                 <Button variant="light" color="blue" disabled={is_registered} onClick={async () => await leagueStore.registerLeague(league_id)}>
                     {is_registered ? 'Registered' : 'Register'}
                 </Button>
-                <Button variant="light" color="blue" disabled={!is_registered} onClick={() => window.location.href = `/trade?leagueId=${league_id}`}>
+                <Button variant="light" color="blue" disabled={!is_registered} onClick={() => navigate(`/trade?leagueId=${league_id}`)}>
                     Enter League
                 </Button>
 
