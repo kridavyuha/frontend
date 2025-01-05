@@ -6,7 +6,7 @@ import { useWebSocket } from '../../hooks/useWebSocket';
 import { useSearchParams } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { useStores } from '../../logic/Providers/StoreProviders';
-import Notify from '../../components/Notify';
+import { Spinner } from '../../components/Spinner';
 
 interface CardProps {
     player_id: string;
@@ -34,15 +34,16 @@ export const TradeScreen: React.FC =  observer(() => {
     tradeStore.league_id = leagueId;
     const {entities} = tradeStore;
          
-    const teams = Array.from(new Set(entities.map(card => card.team)));
+    const teams = Array.from(new Set((entities || []).map(card => card.team)));
     const [selectedTeam, setSelectedTeam] = useState<string | null>(null);
 
     useEffect(() => {
+        console.log("About component mounted!");
         const fetchEntities = async () => {
             await tradeStore.getEntities(leagueId);
         };
         fetchEntities();
-    }, [leagueId]);
+    }, []);
     
 
     // TODO: abstract the below logic
@@ -52,7 +53,7 @@ export const TradeScreen: React.FC =  observer(() => {
 
     useEffect(() => {
         if (messages.length > 0) {
-            const updatedPlayers = entities.map((player) => {
+            const updatedPlayers = (entities || []).map((player) => {
                 const message = messages[0].players[player.player_id];
                 if (message) {
                     // new price
@@ -74,31 +75,38 @@ export const TradeScreen: React.FC =  observer(() => {
         }
     }, [messages]);
 
-    return (
-        <div className="container p-4">
-            <div className="flex flex-wrap gap-2 justify-center items-center">
-                <div className="flex flex-wrap gap-2">
-                    {teams.map((team, index) => (
-                    <Button
-                        key={index}
-                        variant={selectedTeam === team ? 'filled' : 'outline'}
-                        onClick={() => setSelectedTeam(selectedTeam === team ? null : team)}
-                    >
-                        {team}
-                    </Button>
+    if (tradeStore.isLoading === true) {
+        return (
+            <Spinner/>
+        );
+    }
+    else {
+        return (
+            <div className="container p-4">
+                <div className="flex flex-wrap gap-2 justify-center items-center">
+                    <div className="flex flex-wrap gap-2">
+                        {teams.map((team, index) => (
+                        <Button
+                            key={index}
+                            variant={selectedTeam === team ? 'filled' : 'outline'}
+                            onClick={() => setSelectedTeam(selectedTeam === team ? null : team)}
+                        >
+                            {team}
+                        </Button>
+                        ))}
+                    </div>
+                    <div className="ml-auto">
+                        <LiaPiggyBankSolid size={36} onClick={() => handlePortfolio(leagueId)} />
+                    </div>
+                </div>
+                <div className="grid grid-cols-1 gap-4 mt-4">
+                {entities && entities
+                    .filter(card => selectedTeam === null || card.team === selectedTeam)
+                    .map((card, index) => (
+                    <CardLayout key={index} {...card} />
                     ))}
                 </div>
-                <div className="ml-auto">
-                    <LiaPiggyBankSolid size={36} onClick={() => handlePortfolio(leagueId)} />
-                </div>
             </div>
-            <div className="grid grid-cols-1 gap-4 mt-4">
-            {entities
-                .filter(card => selectedTeam === null || card.team === selectedTeam)
-                .map((card, index) => (
-                <CardLayout key={index} {...card} />
-                ))}
-            </div>
-        </div>
-    );
+        );
+    }
 });
