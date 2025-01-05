@@ -2,18 +2,15 @@ import { Badge, useMantineTheme } from "@mantine/core";
 import { Observer } from "mobx-react-lite";
 import {
   Award,
-  BarChart2,
-  Clock,
-  DollarSign,
+  Settings,
   Edit,
-  FileText,
-  Rss,
-  User
+  Anchor
 } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { useStores } from "../../logic/Providers/StoreProviders";
 import NavbarMobileItem from "./NavbarMobileItem";
+import { TfiBook } from "react-icons/tfi";
 
 const SNavBarMobile = styled.div`
   background: white;
@@ -36,7 +33,7 @@ const SMobileBar = styled.a`
   text-decoration: none;
   width: 100%;
   margin: 8px 0px;
-  color: ${(p) => p.theme.color || "gray"};
+  color: ${(p) => p.theme.color || "black"};
   cursor: pointer;
   transition: all 0.3s;
   :hover {
@@ -58,45 +55,34 @@ function NavBarMobile({ setIsNavBarOpened }: INavBarMobile) {
       {() => {
         return (
           <SNavBarMobile>
-            <SMobileBar
-              theme={{
-           
-              }}
-              onClick={() => {
+            <SMobileBar onClick={() => {
                 navigate("/leaderboard");
-                // appStore.setNavigationState(5);
                 setIsNavBarOpened(false);
-              }}
-            >
+              }}>
               <NavbarMobileItem title="Leaderboard" icon={<Award />} />
             </SMobileBar>
             
-           
-            <SMobileBar
-              onClick={() => {
-                navigate("/live-scores");
+            <SMobileBar onClick={() => {
+                navigate("/rules");
                 setIsNavBarOpened(false);
-              }}
-            >
-              <NavbarMobileItem
-                title="Live Scores"
-                icon={<Rss />}
-                badge={<Badge color={"yellow"}>Coming Soon</Badge>}
-              />
-            </SMobileBar>{" "}
+              }}>
+               <NavbarMobileItem title="Rules" icon={<Anchor />}/>
+            </SMobileBar>
            
-            <SMobileBar
-              theme={{
-               
-              }}
-              onClick={() => {
+            <SMobileBar onClick={() => {
                 navigate("/feedback");
-                // appStore.setNavigationState(8);
                 setIsNavBarOpened(false);
-              }}
-            >
+              }}>
               <NavbarMobileItem title="Feedback" icon={<Edit />} />
             </SMobileBar>
+
+            <SMobileBar onClick={() => {
+                navigate("/settings");
+                setIsNavBarOpened(false);
+              }}>
+              <NavbarMobileItem title="Settings" icon={<Settings />} />
+            </SMobileBar>
+            
           </SNavBarMobile>
         );
       }}
