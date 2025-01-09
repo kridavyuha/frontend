@@ -4,6 +4,7 @@ import { AuthStore } from "../Stores/AuthStore";
 import { LeagueStore } from "../Stores/LeagueStore";
 import { TradeStore } from "../Stores/TradeStore";
 import { ProfileStore } from "../Stores/ProfileStore";
+import { PortfolioStore } from "../Stores/PortfolioStore";
 
 interface IStoresContext {
 
@@ -11,7 +12,8 @@ interface IStoresContext {
     authStore: AuthStore;
     leagueStore: LeagueStore;
     tradeStore: TradeStore;
-    profileStore: ProfileStore
+    profileStore: ProfileStore;
+    portfolioStore: PortfolioStore;
    
   }
   
