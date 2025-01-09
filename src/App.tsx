@@ -50,7 +50,7 @@ const App: React.FC = () => {
         return (
           <Router>
             {/* {appStore.isDesktop && <RightFooterIndex/>} */}
-
+          
             <SApp
               style={{
                 marginBottom: `${appStore.isPhone ? "70px" : "0px"}`

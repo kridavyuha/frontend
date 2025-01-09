@@ -15,6 +15,7 @@ import { ProfileStore } from "./logic/Stores/ProfileStore";
 import { ProfileRepo } from "./logic/Repo/ProfileRepo";
 import { PortfolioStore } from "./logic/Stores/PortfolioStore";
 import { PortfolioRepo } from "./logic/Repo/PortfolioRepo";
+import { Notifications } from '@mantine/notifications';
 
 interface ProvidedAppProps {
     children?: React.ReactNode;
@@ -51,10 +52,11 @@ interface ProvidedAppProps {
                   <ThemeProvider theme={{}}>
                     <MantineProvider
                       theme={{
-                        colors: {},
+                      colors: {},
                       }}
                     >
-                        {props.children}
+                    <Notifications position="bottom-right" zIndex={1000} autoClose={2500}/>
+                      {props.children}
                     </MantineProvider>
                   </ThemeProvider>
                 );
