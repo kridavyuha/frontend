@@ -8,17 +8,6 @@ import { observer } from 'mobx-react-lite';
 import { useStores } from '../../logic/Providers/StoreProviders';
 import { Spinner } from '../../components/Spinner';
 
-interface CardProps {
-    player_id: string;
-    player_name: string;
-    team : string;
-    profile_pic: string,
-    cur_price: number;
-    last_change: string;
-    shares: number;
-}
-
-
 
 const handlePortfolio = (leagueId: string | null) => {
     window.location.href = `/portfolio?leagueId=${leagueId}`;
