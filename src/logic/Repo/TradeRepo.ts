@@ -1,3 +1,4 @@
+import { useWebSocket } from "../../hooks/useWebSocket";
 import { MTradeEntity } from "../Model/MTrade";
 import { AuthHeaders, Request } from "../Utils/Fetch";
 import { CheckResponse, ThrowFor } from "../Utils/ResponseHandler";
@@ -49,4 +50,5 @@ export class TradeRepo {
           });
         }
       }
+      
 }
