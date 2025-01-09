@@ -1,25 +1,15 @@
 import { useLocation } from 'react-router-dom';
-import { Badge, Card,Text } from '@mantine/core';
+import { Text } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import { useStores } from '../../logic/Providers/StoreProviders';
 import { PortfolioCard } from './PortfolioCard';
+import { Spinner } from '../../components/Spinner';
 
 
-interface Players {
-    player_id: string;
-    player_name: string;
-    shares: number;
-    cur_price: number;
-    team_name: string;
-}
+import { observer } from 'mobx-react-lite';
+import { Notify } from '../../components/Notify';
 
-interface Share {
-    balance: number;
-    players: Players[];
-}
-
-
-export const PortfolioScreen: React.FC = () => {
+export const PortfolioScreen: React.FC = observer(() => {
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
@@ -35,27 +25,34 @@ export const PortfolioScreen: React.FC = () => {
         fetchPortfolio();
     }, []);
 
-    // add a loader ..
+   if (portfolioStore.isLoading === true) {
+        return <Spinner/>;
+    }
+
+    const totalInvested = portfolio?.players.reduce((sum, player) => sum + player.invested, 0) || 0;
+    const totalReturns = portfolio?.players.reduce((sum, player) => sum + player.cur_price*player.shares - player.invested, 0) || 0;
+    const totalPortfolioValue = totalInvested + totalReturns + (portfolio?.balance ?? 0);
     
-	return (
+    return (
         <div>
-            <div style={{ textAlign: 'center' }}>
-                <Text>Portfolio</Text>
-            </div>
             {portfolio ? (
                 <div>
-                    <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
-                        <Text>Balance: {portfolio.balance}</Text>
+                    <div style={{ textAlign: 'center', margin: '1rem 0', padding: '0.5rem 0' }}>
+                        <Text fw={500} size="lg">
+                            Balance: {portfolio.balance}
+                        </Text>
                     </div>
-                    <div>
+                    <div style={{ overflowY: 'auto' }}>
                         {portfolio.players.map(player => (
                             <PortfolioCard key={player.player_id} player={player} />
                         ))}
                     </div>
                 </div>
             ) : (
-                <p>Loading...</p>
+                <p>No Stocks :(</p>
             )}
+           
+           
         </div>
-	);
-}
+    );
+});
