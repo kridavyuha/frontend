@@ -12,7 +12,8 @@ export class TradeStore{
     league_id: string = '';
     points: MTimeSeries[] = [];
     isLoading: boolean = false; 
-    messages: any = '';
+    messages: string = '';
+    tab: number = 1;
 
     constructor(tradeRepo: TradeRepo) {
         makeAutoObservable(this);
@@ -30,12 +31,15 @@ export class TradeStore{
     }
 
     async buyEntity(entity_id: string, shares: number) {
-        await this.tradeRepo.tranEntity(this.token, entity_id, shares, this.league_id || "", "buy");
+        const message : string = await this.tradeRepo.tranEntity(this.token, entity_id, shares, this.league_id || "", "buy");
+        this.setMessages(message);
+        console.log(message);   
         this.getEntities(this.league_id || ""); 
     }
 
     async sellEntity(entity_id: string, shares: number) {
-        await this.tradeRepo.tranEntity(this.token, entity_id, shares, this.league_id || "", "sell");
+        const message : string = await this.tradeRepo.tranEntity(this.token, entity_id, shares, this.league_id || "", "sell");
+        this.setMessages(message);
         this.getEntities(this.league_id || "");
     }
 
@@ -85,6 +89,15 @@ export class TradeStore{
     setLoading(state: boolean) {
         this.isLoading = state;
     }
+
+    setMessages(message: string) {
+        this.messages = message;
+    }
+
+    setTab(tab: number) {
+        this.tab = tab;
+    }
+    
 
     getPoints() {
         return this.points;
