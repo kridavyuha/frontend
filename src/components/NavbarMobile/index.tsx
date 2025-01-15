@@ -24,6 +24,7 @@ const SNavBarMobile = styled.div`
   flex-direction: column;
   align-items: start;
   padding: 20px 13px;
+  zindex: 1002;
 `;
 
 const SMobileBar = styled.a`

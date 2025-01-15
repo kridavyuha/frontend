@@ -27,7 +27,7 @@ interface ProvidedAppProps {
     const rq = new Request({ "Content-Type": "application/json" });
 
     const appStore = new AppStore();
-    const authStore = new AuthStore(new AuthRepo(BASE_URL+"/login",rq));
+    const authStore = new AuthStore(new AuthRepo(BASE_URL+"/auth",rq));
     const leagueStore = new LeagueStore(new LeagueRepo(BASE_URL+"/leagues",rq));
     const tradeStore = new TradeStore(new TradeRepo(BASE_URL+"/trade",rq));
     const profileStore = new ProfileStore(new ProfileRepo(BASE_URL+"/profile",rq));

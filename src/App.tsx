@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { TradeScreen } from './screens/TradeScreen';
+import { TradeScreen } from './screens/TradeScreen/Trade';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { LeaguesScreen } from './screens/LeaguesScreen';
 import UserProfile from './screens/ProfileScreen';
@@ -13,6 +13,7 @@ import TopBar from './components/TopBar.tsx';
 import BottomBar from './components/BottomBar';
 import { WIPScreen } from './screens/WIPScreen';
 import { ProtectedRoutes } from './ProtectedRoute';
+import { Complete } from './screens/TradeScreen';
 
 
 const SApp = styled.section`
@@ -65,7 +66,7 @@ const App: React.FC = () => {
                   <Route element={<ProtectedRoutes />}>
 
                   <Route path="/profile" element={<UserProfile />} />
-                  <Route path="/trade" element={<TradeScreen />} />
+                  <Route path="/trade" element={<Complete />} />
                   <Route path="/trade/graph" element={<PlayerGraph />} />
                   <Route path="/leagues" element={<LeaguesScreen />} />
                   <Route path="/portfolio" element={<PortfolioScreen />} />
