@@ -75,8 +75,7 @@ export const CardLayout: React.FC<CardProps> = ({ player_id, player_name, cur_pr
                         setTransactShares(0);
                         setOpened(false);
                         notifications.show({
-                            title: 'Transaction Successful',
-                            message: 'You have successfully bought the shares',
+                            message: tradeStore.messages
                         })
                     }}>Buy</Button>
                     <Button onClick={() => {
@@ -84,8 +83,7 @@ export const CardLayout: React.FC<CardProps> = ({ player_id, player_name, cur_pr
                         setTransactShares(0);
                         setOpened(false);
                         notifications.show({
-                            title: 'Transaction Successful',
-                            message: 'You have successfully sold the shares',
+                            message: tradeStore.messages
                         })
                     }}>Sell</Button>
                 </Group>
