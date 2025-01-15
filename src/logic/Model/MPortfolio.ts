@@ -1,6 +1,6 @@
 export interface MPortfolio {
     balance : number;
-    players: MStocks[];
+    players: MStocks[] ;
 }
 
 export interface MStocks { 

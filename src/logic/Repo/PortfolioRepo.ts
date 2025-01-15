@@ -13,8 +13,8 @@ export class PortfolioRepo {
     async getPortfolio(league_id: string, token: string): Promise<MPortfolio> {
         try {
             const res = await this.rq.Get(`${this.baseUrl}?league_id=${league_id}`, AuthHeaders(token));
-            const { body } = await CheckResponse(res, 200);
-            const portfolio = body as MPortfolio;
+            const { body } = await CheckResponse(res);
+            const portfolio = body.data as MPortfolio;
             return portfolio;
         } catch (err: any) {
             throw ThrowFor(err, {

@@ -18,7 +18,10 @@ export class PortfolioStore {
     async getPortfolio(league_id: string) {
         this.setLoading(true);
         const portfolio: MPortfolio = await this.portfolioRepo.getPortfolio(league_id, this.token || "");
-        console.log(portfolio);
+        if (portfolio.players === null){
+            portfolio.players = [];
+        }
+        console.log("get portfolio",portfolio.players);
         this.setPortfolio(portfolio);
         this.setLoading(false);
     }
