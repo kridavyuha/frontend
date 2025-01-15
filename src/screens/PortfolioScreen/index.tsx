@@ -1,13 +1,15 @@
 import { useLocation } from 'react-router-dom';
-import { Text } from '@mantine/core';
+import { Button, Text } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
 import { useStores } from '../../logic/Providers/StoreProviders';
 import { PortfolioCard } from './PortfolioCard';
 import { Spinner } from '../../components/Spinner';
+import { MdRocketLaunch } from "react-icons/md";
 
 
 import { observer } from 'mobx-react-lite';
 import { Notify } from '../../components/Notify';
+import { Slider } from '../TradeScreen/slider';
 
 export const PortfolioScreen: React.FC = observer(() => {
 
@@ -33,16 +35,21 @@ export const PortfolioScreen: React.FC = observer(() => {
     const totalReturns = portfolio?.players.reduce((sum, player) => sum + player.cur_price*player.shares - player.invested, 0) || 0;
     const totalPortfolioValue = totalInvested + totalReturns + (portfolio?.balance ?? 0);
     
+    console.log("Portfollio", portfolio);
+
     return (
-        <div>
-            {portfolio ? (
+        <div className="container p-4 ">
+    
+            {portfolio?.players ? (
                 <div>
-                    <div style={{ textAlign: 'center', margin: '1rem 0', padding: '0.5rem 0' }}>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                         <Text fw={500} size="lg">
                             Balance: {portfolio.balance}
-                        </Text>
+                        </Text>  
+                    <MdRocketLaunch />
+                      
                     </div>
-                    <div style={{ overflowY: 'auto' }}>
+                    <div >
                         {portfolio.players.map(player => (
                             <PortfolioCard key={player.player_id} player={player} />
                         ))}
