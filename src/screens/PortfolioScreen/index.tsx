@@ -9,7 +9,6 @@ import { MdRocketLaunch } from "react-icons/md";
 
 import { observer } from 'mobx-react-lite';
 import { Notify } from '../../components/Notify';
-import { Slider } from '../TradeScreen/slider';
 
 export const PortfolioScreen: React.FC = observer(() => {
 
@@ -43,16 +42,18 @@ export const PortfolioScreen: React.FC = observer(() => {
             {portfolio?.players ? (
                 <div>
                     <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text fw={500} size="lg">
+                        <Text fw={500} size="lg" >
                             Balance: {portfolio.balance}
                         </Text>  
                     <MdRocketLaunch />
                       
                     </div>
                     <div >
-                        {portfolio.players.map(player => (
-                            <PortfolioCard key={player.player_id} player={player} />
-                        ))}
+                        {portfolio.players
+                            .filter(player => player.shares > 0)
+                            .map(player => (
+                                <PortfolioCard key={player.player_id} player={player} />
+                            ))}
                     </div>
                 </div>
             ) : (
