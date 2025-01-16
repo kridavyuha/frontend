@@ -14,6 +14,7 @@ import BottomBar from './components/BottomBar';
 import { WIPScreen } from './screens/WIPScreen';
 import { ProtectedRoutes } from './ProtectedRoute';
 import { Complete } from './screens/TradeScreen';
+import LeaderBoardScreen from './screens/LeaderScreen';
 
 
 const SApp = styled.section`
@@ -72,8 +73,9 @@ const App: React.FC = () => {
                   <Route path="/portfolio" element={<PortfolioScreen />} />
                   <Route path="/notifications" element={<WIPScreen/>}/>
                   <Route path="/portfolios" element={<WIPScreen/>}/>
-                  <Route path="/leaderboard" element={<WIPScreen/>}/>
+                  <Route path="/leaderboard" element={<LeaderBoardScreen/>}/>
                   <Route path="/rules" element={<WIPScreen/>}/>
+                  <Route path="/store" element={<WIPScreen/>}/>
                   <Route path="/feedback" element={<WIPScreen/>}/>
                   <Route path="/settings" element={<WIPScreen/>}/>
                   
