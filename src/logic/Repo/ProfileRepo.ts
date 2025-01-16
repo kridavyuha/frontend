@@ -13,8 +13,8 @@ export class ProfileRepo {
     async getProfile(token: string): Promise<MProfile> {
         try {
             const res = await this.rq.Get(`${this.baseUrl}`, AuthHeaders(token));
-            const { body } = await CheckResponse(res, 200);
-            const profile = body as MProfile;
+            const { body } = await CheckResponse(res);
+            const profile = body.data as MProfile;
             return profile;
         } catch (err: any) {
             throw ThrowFor(err, {
