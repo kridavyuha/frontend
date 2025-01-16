@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { TradeScreen } from './screens/TradeScreen';
+import { TradeScreen } from './screens/TradeScreen/Trade';
 import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom';
 import { LeaguesScreen } from './screens/LeaguesScreen';
 import UserProfile from './screens/ProfileScreen';
@@ -13,6 +13,8 @@ import TopBar from './components/TopBar.tsx';
 import BottomBar from './components/BottomBar';
 import { WIPScreen } from './screens/WIPScreen';
 import { ProtectedRoutes } from './ProtectedRoute';
+import { Complete } from './screens/TradeScreen';
+import LeaderBoardScreen from './screens/LeaderScreen';
 
 
 const SApp = styled.section`
@@ -50,7 +52,7 @@ const App: React.FC = () => {
         return (
           <Router>
             {/* {appStore.isDesktop && <RightFooterIndex/>} */}
-
+          
             <SApp
               style={{
                 marginBottom: `${appStore.isPhone ? "70px" : "0px"}`
@@ -65,14 +67,15 @@ const App: React.FC = () => {
                   <Route element={<ProtectedRoutes />}>
 
                   <Route path="/profile" element={<UserProfile />} />
-                  <Route path="/trade" element={<TradeScreen />} />
+                  <Route path="/trade" element={<Complete />} />
                   <Route path="/trade/graph" element={<PlayerGraph />} />
                   <Route path="/leagues" element={<LeaguesScreen />} />
                   <Route path="/portfolio" element={<PortfolioScreen />} />
                   <Route path="/notifications" element={<WIPScreen/>}/>
                   <Route path="/portfolios" element={<WIPScreen/>}/>
-                  <Route path="/leaderboard" element={<WIPScreen/>}/>
+                  <Route path="/leaderboard" element={<LeaderBoardScreen/>}/>
                   <Route path="/rules" element={<WIPScreen/>}/>
+                  <Route path="/store" element={<WIPScreen/>}/>
                   <Route path="/feedback" element={<WIPScreen/>}/>
                   <Route path="/settings" element={<WIPScreen/>}/>
                   

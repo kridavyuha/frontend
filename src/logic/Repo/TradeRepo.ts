@@ -1,3 +1,4 @@
+import { useWebSocket } from "../../hooks/useWebSocket";
 import { MTradeEntity } from "../Model/MTrade";
 import { AuthHeaders, Request } from "../Utils/Fetch";
 import { CheckResponse, ThrowFor } from "../Utils/ResponseHandler";
@@ -13,8 +14,8 @@ export class TradeRepo {
     async getEntities(token: string, league_id: string) : Promise<MTradeEntity[]> {
         try {
           const res = await this.rq.Get(`${this.baseUrl}?league_id=${league_id}`, AuthHeaders(token));
-          const { body } = await CheckResponse(res, 200);
-          const entities = body as MTradeEntity[];
+          const { body } = await CheckResponse(res);
+          const entities = body.data as MTradeEntity[];
           return entities;
         } catch (err: any) {
             console.log(err);
@@ -29,19 +30,19 @@ export class TradeRepo {
           const res = await this.rq.Post(`${this.baseUrl}/transaction?league_id=${league_id}&player_id=${player_id}&transaction_type=${tran_type}`, {
             shares
           }, AuthHeaders(token));
-          const { body } = await CheckResponse(res, 200);
-          return body.message;
+          const { body } = await CheckResponse(res);
+          console.log(body.data.message);
+          return body.data.message;
         } catch (err: any) {
-          throw ThrowFor(err, {
-            404: "No such entity exists.",
-          });
+          console.log(err.error);
+          return err.error;
         }
       }
 
       async getPlayerGraph(token: string, player_id: string, league_id: string): Promise<string[]> {
         try {
           const res = await this.rq.Get(`${this.baseUrl}/points?player_id=${player_id}&league_id=${league_id}`, AuthHeaders(token));
-          const { body } = await CheckResponse(res, 200);
+          const { body } = await CheckResponse(res);
           return body.points;
         } catch (err: any) {
           throw ThrowFor(err, {
@@ -49,4 +50,5 @@ export class TradeRepo {
           });
         }
       }
+      
 }

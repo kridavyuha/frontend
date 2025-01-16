@@ -1,83 +1,66 @@
 import { useLocation } from 'react-router-dom';
-import { Badge, Card,Text } from '@mantine/core';
+import { Button, Text } from '@mantine/core';
 import React, { useEffect, useState } from 'react';
+import { useStores } from '../../logic/Providers/StoreProviders';
+import { PortfolioCard } from './PortfolioCard';
+import { Spinner } from '../../components/Spinner';
+import { MdRocketLaunch } from "react-icons/md";
 
 
-interface Players {
-    player_id: string;
-    player_name: string;
-    shares: number;
-    cur_price: number;
-    team_name: string;
-}
+import { observer } from 'mobx-react-lite';
+import { Notify } from '../../components/Notify';
 
-interface Share {
-    balance: number;
-    players: Players[];
-}
-
-
-export const PortfolioScreen: React.FC = () => {
-    
-    const [userShares, setUserShares] = useState<Share>();
+export const PortfolioScreen: React.FC = observer(() => {
 
     const location = useLocation();
     const searchParams = new URLSearchParams(location.search);
-    const leagueId = searchParams.get('leagueId');
+    const leagueId = searchParams.get('leagueId') || '';
+    const {portfolioStore} = useStores();   
+    const {portfolio} = portfolioStore;
 
     useEffect(() => {
         const fetchPortfolio = async () => {
-            try {
-                const response = await fetch(`http://localhost:8080/portfolio?league_id=${leagueId}`, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`
-                    }
-                });
-                if (response.ok) {
-                    const data: Share = await response.json();
-                    setUserShares(data);
-                } else {
-                    console.error('Failed to fetch portfolio');
-                }
-            } catch (error) {
-                console.error('Error fetching portfolio:', error);
-            }
+           await portfolioStore.getPortfolio(leagueId);
         };
 
         fetchPortfolio();
     }, []);
+
+   if (portfolioStore.isLoading === true) {
+        return <Spinner/>;
+    }
+
+    const totalInvested = portfolio?.players.reduce((sum, player) => sum + player.invested, 0) || 0;
+    const totalReturns = portfolio?.players.reduce((sum, player) => sum + player.cur_price*player.shares - player.invested, 0) || 0;
+    const totalPortfolioValue = totalInvested + totalReturns + (portfolio?.balance ?? 0);
     
-	return (
-        <div>
-            <div style={{ textAlign: 'center' }}>
-                <Text>Portfolio</Text>
-            </div>
-            {userShares ? (
+    console.log("Portfollio", portfolio);
+
+    return (
+        <div className="container p-4 ">
+    
+            {portfolio?.players ? (
                 <div>
-                    <div style={{ textAlign: 'center', marginBottom: '1rem' }}>
-                        <Text>Balance: {userShares.balance}</Text>
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                        <Text fw={500} size="lg" >
+                            Balance: {portfolio.balance}
+                        </Text>  
+                    <MdRocketLaunch />
+                      
                     </div>
-                    <div>
-                        {userShares.players.map(player => (
-                            <Card key={player.player_id} shadow="sm" padding="lg" style={{ marginBottom: '1rem' }}>
-                                
-                                <div style={{ display: 'flex', justifyContent: 'space-between', fontFamily: 'Times New Roman, Times, serif' }}>
-                                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
-                                        <Badge>{player.team_name}</Badge>
-                                        <Text>{player.player_name}</Text>
-                                    </div>
-                                    <div>
-                                        <Text>Shares: {player.shares}</Text>
-                                        <Text>Current Price: {player.cur_price}</Text>
-                                    </div>
-                                </div>
-                            </Card>
-                        ))}
+                    <div >
+                        {portfolio.players
+                            .filter(player => player.shares > 0)
+                            .map(player => (
+                                <PortfolioCard key={player.player_id} player={player} />
+                            ))}
                     </div>
                 </div>
             ) : (
-                <p>Loading...</p>
+                <p>No Stocks :(</p>
             )}
+           
+           
         </div>
-	);
-}
+    );
+});

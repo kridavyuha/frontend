@@ -1,3 +1,5 @@
+
+
 class ResponseError extends Error {
     status: number;
     bodyMessage: number;
@@ -10,17 +12,8 @@ class ResponseError extends Error {
   
   export async function CheckResponse(
     res: Response,
-    mustCode: number
   ): Promise<{ status: number; body: any; message: string | null }> {
     const body = await res.json();
-    if (res.status !== mustCode) {
-      console.log(res.status, "Status Code");
-      throw new ResponseError(res.status, body.message || "");
-    }
-    if (body.is_error) {
-      console.log(body.message, "Body Message");
-      throw new ResponseError(res.status, body.message || "");
-    }
     return { status: res.status, body, message: body.message };
   }
   

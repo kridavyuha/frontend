@@ -6,6 +6,8 @@ import { PiHourglassLow } from "react-icons/pi";
 import { VscGraphLine } from "react-icons/vsc";
 import { NumberInput } from '@mantine/core';
 import { useStores } from '../../logic/Providers/StoreProviders';
+import { notifications } from '@mantine/notifications';
+import { useNavigate } from 'react-router-dom';
 
 interface CardProps {
     player_id: string;
@@ -17,15 +19,11 @@ interface CardProps {
     shares: number;
   }
 
-const handleGraphClick = (player_id: string, league_id: string) => {
-    window.location.href = `/trade/graph?player_id=${player_id}&league_id=${league_id}`;
-    // Add your logic here to handle the graph click event
-};
-
 export const CardLayout: React.FC<CardProps> = ({ player_id, player_name, cur_price, team, last_change,profile_pic,shares}) => {
     const [opened, setOpened] = useState(false);
     const {tradeStore} = useStores();
     const league_id:string =  tradeStore.league_id || '';
+    const navigate = useNavigate();
 
     const [transactShares, setTransactShares] = useState<number>(0);
 
@@ -33,7 +31,9 @@ export const CardLayout: React.FC<CardProps> = ({ player_id, player_name, cur_pr
    
     return (
         <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <VscGraphLine onClick={()=> handleGraphClick(player_id, league_id)}/>
+            <VscGraphLine onClick={()=> {
+                navigate(`/trade/graph?player_id=${player_id}&league_id=${league_id}`);
+            }}/>
             <Group justify="space-between" mt="md" mb="xs">
                 <Avatar src={`src/assets/${profile_pic}`} alt="it's me" size="lg" />
                 
@@ -60,7 +60,7 @@ export const CardLayout: React.FC<CardProps> = ({ player_id, player_name, cur_pr
             <Button fullWidth mt="md" radius="md" onClick={() => setOpened(true)}>
                 Trade
             </Button>
-            <Modal opened={opened} onClose={() => setOpened(false)} title="Buy or Sell">
+            <Modal opened={opened} onClose={() => setOpened(false)} title="Buy or Sell" centered>
                 <Text>Do you want to Buy or Sell your items?</Text>
 
                 <NumberInput
@@ -74,15 +74,20 @@ export const CardLayout: React.FC<CardProps> = ({ player_id, player_name, cur_pr
                         tradeStore.buyEntity(player_id, transactShares);
                         setTransactShares(0);
                         setOpened(false);
+                        notifications.show({
+                            message: tradeStore.messages
+                        })
                     }}>Buy</Button>
                     <Button onClick={() => {
                         tradeStore.sellEntity(player_id, transactShares);
                         setTransactShares(0);
                         setOpened(false);
+                        notifications.show({
+                            message: tradeStore.messages
+                        })
                     }}>Sell</Button>
                 </Group>
             </Modal>    
-            
             </div>
         </Card>
     );

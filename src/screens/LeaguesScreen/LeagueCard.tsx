@@ -35,7 +35,7 @@ export const LeagueCards: React.FC<LeagueCardsProps> = (props: LeagueCardsProps)
                 <Button variant="light" color="blue" disabled={is_registered} onClick={async () => await leagueStore.registerLeague(league_id)}>
                     {is_registered ? 'Registered' : 'Register'}
                 </Button>
-                <Button variant="light" color="blue" disabled={!is_registered} onClick={() => navigate(`/trade?leagueId=${league_id}`)}>
+                <Button variant="light" color="blue" disabled={!is_registered} onClick={() => {navigate(`/trade?leagueId=${league_id}&matchId=${match_id}`)}}>
                     Enter League
                 </Button>
 

@@ -12,21 +12,19 @@ export class AuthRepo {
   
     async login(username: string, password: string) {
       try {
-        console.log("login", username, password);
-        const res = await this.rq.Post(`${this.baseUrl}`, {
+        const res = await this.rq.Post(`${this.baseUrl}/login`, {
           user_name: username,
           password
         });
-        const { body } = await CheckResponse(res, 200);
+        const {body} = await CheckResponse(res);
         return {
-          token: body.token
+          token: body.data.data,
         };
       } catch (err: any) {
         throw ThrowFor(err, {
-          405: "The account is associated with Login With Google.",
           404: "No such user account exists.",
-          401: "Email/Password combination mismatch.",
-          400: "Email/Password missing."
+          401: "Username /Password combination mismatch.",
+          400: "Username /Password missing."
         });
       }
     }
@@ -34,10 +32,10 @@ export class AuthRepo {
     async logout(token: string): Promise<string>{
       try {
         console.log("logout", token);
-        const res = await this.rq.Post(`${this.baseUrl}`, {
+        const res = await this.rq.Post(`${this.baseUrl}/logout`, {
           token
         });
-        const {body} = await CheckResponse(res, 200);
+        const {body} = await CheckResponse(res);
         return body.message
       } catch (err: any) {
         throw ThrowFor(err, {

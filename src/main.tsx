@@ -5,6 +5,8 @@ import '@mantine/core/styles.css';
 import App from './App'
 import ProvidedApp from './ProvidedApp';
 import { styled } from 'styled-components';
+import { Notifications } from '@mantine/notifications';
+import '@mantine/notifications/styles.css';
 
 const SIndex = styled.div`
   display: flex;

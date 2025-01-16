@@ -1,8 +1,8 @@
-import { MProfile } from "../Model/MProfile";
+import { MPortfolio } from "../Model/MPortfolio";
 import { AuthHeaders, Request } from "../Utils/Fetch";
 import { CheckResponse, ThrowFor } from "../Utils/ResponseHandler";
 
-export class ProfileRepo {
+export class PortfolioRepo {
     baseUrl: string;
     rq: Request;
     constructor(baseUrl: string, rq: Request) {
@@ -10,15 +10,15 @@ export class ProfileRepo {
         this.baseUrl = baseUrl;
     }
 
-    async getProfile(token: string): Promise<MProfile> {
+    async getPortfolio(league_id: string, token: string): Promise<MPortfolio> {
         try {
-            const res = await this.rq.Get(`${this.baseUrl}`, AuthHeaders(token));
+            const res = await this.rq.Get(`${this.baseUrl}?league_id=${league_id}`, AuthHeaders(token));
             const { body } = await CheckResponse(res);
-            const profile = body.data as MProfile;
-            return profile;
+            const portfolio = body.data as MPortfolio;
+            return portfolio;
         } catch (err: any) {
             throw ThrowFor(err, {
-                404: "No such profile exists.",
+                404: "No such portfolio exists.",
             });
         }
     }
