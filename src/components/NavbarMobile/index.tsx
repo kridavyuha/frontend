@@ -4,7 +4,8 @@ import {
   Award,
   Settings,
   Edit,
-  Anchor
+  Anchor,
+  ShoppingCart
 } from "react-feather";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -69,13 +70,22 @@ function NavBarMobile({ setIsNavBarOpened }: INavBarMobile) {
               }}>
                <NavbarMobileItem title="Rules" icon={<Anchor />}/>
             </SMobileBar>
-           
+          
+
+            <SMobileBar onClick={() => {
+                navigate("/store");
+                setIsNavBarOpened(false);
+              }}>
+              <NavbarMobileItem title="Store" icon={<ShoppingCart />} />
+            </SMobileBar>
+
             <SMobileBar onClick={() => {
                 navigate("/feedback");
                 setIsNavBarOpened(false);
               }}>
               <NavbarMobileItem title="Feedback" icon={<Edit />} />
             </SMobileBar>
+
 
             <SMobileBar onClick={() => {
                 navigate("/settings");
