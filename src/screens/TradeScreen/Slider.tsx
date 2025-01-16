@@ -51,7 +51,10 @@ const controls = (
             key="Standings"
             className={classes.control}
             ref={setControlRef(2)}
-            onClick={() => setActive(2)}
+            onClick={() => {
+              setActive(2)
+              tradeStore.setTab(2);
+            }}
             mod={{ active: active === 2 }}
         >
             <span className={classes.controlLabel}>Standings</span>

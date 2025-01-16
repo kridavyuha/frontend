@@ -9,8 +9,6 @@ import { useStores } from '../../logic/Providers/StoreProviders';
 import { Spinner } from '../../components/Spinner';
 import { MTradeEntity } from '../../logic/Model/MTrade';
 import { notifications } from '@mantine/notifications';
-import { Slider } from './slider';
-
 
 const handleWSMessage = (messages : any, entities: MTradeEntity[]| null) => {
     const updatedPlayers: MTradeEntity[] = (entities || []).map((player) => {

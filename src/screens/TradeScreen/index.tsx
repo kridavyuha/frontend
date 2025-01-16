@@ -1,9 +1,10 @@
 import { TradeScreen } from "./Trade";
 import { useStores } from "../../logic/Providers/StoreProviders";
 import { PortfolioScreen } from "../PortfolioScreen";
-import { Slider } from "./slider";
+import { Slider } from "./Slider";
 
 import { observer } from "mobx-react-lite";
+import LeaderBoardScreen from "../LeaderScreen";
 
 export const Complete = observer(() => {
     
@@ -17,6 +18,7 @@ export const Complete = observer(() => {
         <div className="w-full mt-2" style={{ overflowY: 'auto', height: 'calc(100vh - 100px)', paddingTop: '60px' }}>
             { tradeStore.tab == 0 && <PortfolioScreen/> }
             { tradeStore.tab == 1 && <TradeScreen/> }
+            { tradeStore.tab == 2 && <LeaderBoardScreen/>}
         </div>
     </div>
   );
