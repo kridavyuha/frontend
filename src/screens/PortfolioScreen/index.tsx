@@ -33,20 +33,15 @@ export const PortfolioScreen: React.FC = observer(() => {
     const totalInvested = portfolio?.players.reduce((sum, player) => sum + player.invested, 0) || 0;
     const totalReturns = portfolio?.players.reduce((sum, player) => sum + player.cur_price*player.shares - player.invested, 0) || 0;
     const totalPortfolioValue = totalInvested + totalReturns + (portfolio?.balance ?? 0);
-    
-    console.log("Portfollio", portfolio);
 
     return (
         <div className="container p-4 ">
     
             {portfolio?.players ? (
                 <div>
-                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                        <Text fw={500} size="lg" >
-                            Balance: {portfolio.balance}
-                        </Text>  
-                    <MdRocketLaunch />
-                      
+                    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', margin: '5px 0' }}>
+                    <Text size="sm" fw={700} color='black'>Balance: {portfolio.balance}</Text>
+                   
                     </div>
                     <div >
                         {portfolio.players
