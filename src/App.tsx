@@ -14,7 +14,7 @@ import BottomBar from './components/BottomBar';
 import { WIPScreen } from './screens/WIPScreen';
 import { ProtectedRoutes } from './ProtectedRoute';
 import { Complete } from './screens/TradeScreen';
-import LeaderBoardScreen from './screens/LeaderScreen';
+import LeaderBoardScreen from './screens/LeaderboardScreen';
 
 
 const SApp = styled.section`
