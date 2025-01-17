@@ -14,12 +14,13 @@ interface CardProps {
     player_name: string;
     team : string;
     profile_pic: string;
+    base_price: number;
     cur_price: number;
     last_change: string;
     shares: number;
   }
 
-export const CardLayout: React.FC<CardProps> = ({ player_id, player_name, cur_price, team, last_change,profile_pic,shares}) => {
+export const CardLayout: React.FC<CardProps> = ({ player_id, player_name, base_price,cur_price, team, last_change,profile_pic,shares}) => {
     const [opened, setOpened] = useState(false);
     const {tradeStore} = useStores();
     const league_id:string =  tradeStore.league_id || '';
@@ -45,9 +46,9 @@ export const CardLayout: React.FC<CardProps> = ({ player_id, player_name, cur_pr
                 <strong>{cur_price}</strong>
                 <div style={{marginLeft : '5px'}}>
                 {
-                    last_change === "pos" ? (
+                    base_price < cur_price ? (
                         <FaArrowTrendUp style={{ color: 'green' }} />
-                    ) : last_change === "neg" ? (
+                    ) : base_price > cur_price ? (
                         <FaArrowTrendDown style={{ color: 'red' }} />
                     ) : (
                         <PiHourglassLow style={{ color: 'black' }} />
