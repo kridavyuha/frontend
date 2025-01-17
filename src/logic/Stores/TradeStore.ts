@@ -45,7 +45,7 @@ export class TradeStore{
     }
 
 
-    //TODO:  Needed Fix
+    //TODO:  As this is being called from PlayerGraph screen we should use the league id coming from the search params. 
     async getPlayerGraph(player_id: string, league_id: string) {
         console.log(player_id, this.league_id);
         const player: string[]=await this.tradeRepo.getPlayerGraph(this.token, player_id, league_id);
@@ -53,16 +53,21 @@ export class TradeStore{
         if (player.length === 0) {
             return;
         }
-        const formattedData = player.map((item: string) => {
-            const [timestamp, points] = item.split(',');
-            return {
-                time: new Date(parseInt(timestamp)),
-                value: parseInt(points),
-            };
-        });
-        console.log(formattedData);
-        this.setPoints(formattedData);
+        if (Array.isArray(player)) {
+            const formattedData = player.map((item: string) => {
+                const [timestamp, points] = item.split(',');
+                return {
+                    time: new Date(parseInt(timestamp)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+                    value: parseInt(points),
+                };
+            });
+            console.log(formattedData);
+            this.setPoints(formattedData);
+        } else {
+            console.error("Expected player to be an array, but got:", player);
+        }
         console.log(toJS(this.getPoints()));
+        this.getEntities(league_id);
     }
 
 

@@ -43,7 +43,7 @@ export class TradeRepo {
         try {
           const res = await this.rq.Get(`${this.baseUrl}/points?player_id=${player_id}&league_id=${league_id}`, AuthHeaders(token));
           const { body } = await CheckResponse(res);
-          return body.points;
+          return body.data.data as string[];
         } catch (err: any) {
           throw ThrowFor(err, {
             404: "No such entity exists.",
