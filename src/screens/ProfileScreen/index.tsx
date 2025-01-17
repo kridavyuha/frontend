@@ -31,14 +31,13 @@ export const UserProfile: React.FC = observer(() => {
     return (
       <>
         <Card shadow="sm" padding="lg" radius="md" withBorder style={{ width: '100%', marginTop: '10px' }}>
-          <Stack gap={8} align="center">
-            {/* <Avatar src={profileStore.user?.profile_pic?.toString()} size={100} radius="xl" /> */}
-            <Avatar size={50} radius="xl" color='blue'>{getInitials(profileStore.user?.user_name)}</Avatar>
-            <Title order={3}>{profileStore.user?.user_name}</Title>
-            <Text c="dimmed">{profileStore.user?.mail_id}</Text>
-          </Stack>
+            <Stack gap={8} align="center">
+            <Avatar size={50} radius="xl" color='blue'>{getInitials(profileStore.user?.profile?.user_name)}</Avatar>
+            <Title order={3}>{profileStore.user?.profile?.user_name}</Title>
+            <Text color="dimmed">{profileStore.user?.profile?.mail_id}</Text>
+            </Stack>
 
-          <Box
+            <Box
             mt="xl"
             p="md"
             style={{
@@ -46,14 +45,14 @@ export const UserProfile: React.FC = observer(() => {
               borderRadius: '12px',
               textAlign: 'center',
             }}
-          >
-            <Text size="lg" fw={700} c="blue">
-              Credits: {2300}
+            >
+            <Text size="lg" fw={700} color="blue">
+              Credits: {profileStore.user?.profile?.credits}
             </Text>
-            <Text size="md" fw={500} c="gray">
-              Rating: {1800}
+            <Text size="md" fw={500} color="gray">
+              Rating: { profileStore.user?.profile?.rating }
             </Text>
-          </Box>
+            </Box>
             <div style={{ marginTop: '20px' }}>
             <ProfileTabs />
             </div>

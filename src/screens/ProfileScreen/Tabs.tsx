@@ -1,15 +1,17 @@
 import React from "react";
 import { Tabs } from '@mantine/core';
 import { IconPhoto, IconMessageCircle, IconSettings } from '@tabler/icons-react';
+import { MyLeagueCards } from "./MyLeagueCards";
+import { MyLeagues } from "./MyLeagues";
 
 export const ProfileTabs: React.FC = () => {
     return (
-        <Tabs defaultValue="gallery">
+        <Tabs defaultValue="leagues">
         <Tabs.List style={{ display: 'flex', justifyContent: 'space-around' }}>
-          <Tabs.Tab value="gallery" leftSection={<IconPhoto size={12} />}>
+          <Tabs.Tab value="leagues" leftSection={<IconPhoto size={12} />}>
             Leagues
           </Tabs.Tab>
-          <Tabs.Tab value="messages" leftSection={<IconMessageCircle size={12} />}>
+          <Tabs.Tab value="stats" leftSection={<IconMessageCircle size={12} />}>
             Stats
           </Tabs.Tab>
           <Tabs.Tab value="settings" leftSection={<IconSettings size={12} />}>
@@ -17,11 +19,11 @@ export const ProfileTabs: React.FC = () => {
           </Tabs.Tab>
         </Tabs.List>
   
-        <Tabs.Panel value="gallery" style={{ margin: '20px' }}>
-          League tab content
+        <Tabs.Panel value="leagues" style={{ margin: '20px' }}>
+          <MyLeagues/>
         </Tabs.Panel>
   
-        <Tabs.Panel value="messages" style={{ margin: '20px' }}>
+        <Tabs.Panel value="stats" style={{ margin: '20px' }}>
           Stats tab content
         </Tabs.Panel>
   
