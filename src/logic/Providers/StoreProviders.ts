@@ -5,6 +5,8 @@ import { LeagueStore } from "../Stores/LeagueStore";
 import { TradeStore } from "../Stores/TradeStore";
 import { ProfileStore } from "../Stores/ProfileStore";
 import { PortfolioStore } from "../Stores/PortfolioStore";
+import { LeaderboardRepo } from "../Repo/LeaderboardRepo";
+import { LeaderboardStore } from "../Stores/LeaderboardStore";
 
 interface IStoresContext {
 
@@ -14,6 +16,7 @@ interface IStoresContext {
     tradeStore: TradeStore;
     profileStore: ProfileStore;
     portfolioStore: PortfolioStore;
+    leaderboardStore: LeaderboardStore
    
   }
   
