@@ -4,7 +4,7 @@ import { PortfolioScreen } from "../PortfolioScreen";
 import { Slider } from "./Slider";
 
 import { observer } from "mobx-react-lite";
-import LeaderBoardScreen from "../LeaderScreen";
+import LeaderBoardScreen from "../LeaderboardScreen";
 
 export const Complete = observer(() => {
     

@@ -1,10 +1,10 @@
 import { makeAutoObservable } from 'mobx';
-import { MProfile } from '../Model/MProfile';
+import { MCompleteProfile, MProfile } from '../Model/MProfile';
 import { ProfileRepo } from '../Repo/ProfileRepo';
 
 export class ProfileStore{
     token: string | null;
-    user: MProfile | null = null;
+    user: MCompleteProfile | null = null;
     isLoading: boolean = false;
     profileRepo: ProfileRepo
     constructor(profileRepo: ProfileRepo) {
@@ -14,10 +14,8 @@ export class ProfileStore{
     }
 
     async getProfile() {
-        console.log("Getting profile");
         this.isLoading = true;
-        // await new Promise(resolve => setTimeout(resolve, 1000));
-        const user: MProfile = await this.profileRepo.getProfile(this.token || "");
+        const user: MCompleteProfile = await this.profileRepo.getProfile(this.token || "");
         console.log(user);
         this.user = user;
         this.isLoading = false;

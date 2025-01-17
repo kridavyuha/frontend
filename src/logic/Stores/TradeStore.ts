@@ -32,9 +32,10 @@ export class TradeStore{
 
     async buyEntity(entity_id: string, shares: number) {
         const message : string = await this.tradeRepo.tranEntity(this.token, entity_id, shares, this.league_id || "", "buy");
-        this.setMessages(message);
+        
         console.log(message);   
         this.getEntities(this.league_id || ""); 
+        this.setMessages(message);
     }
 
     async sellEntity(entity_id: string, shares: number) {

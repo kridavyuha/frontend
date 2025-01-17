@@ -1,4 +1,4 @@
-import { MProfile } from "../Model/MProfile";
+import { MCompleteProfile, MProfile } from "../Model/MProfile";
 import { AuthHeaders, Request } from "../Utils/Fetch";
 import { CheckResponse, ThrowFor } from "../Utils/ResponseHandler";
 
@@ -10,11 +10,11 @@ export class ProfileRepo {
         this.baseUrl = baseUrl;
     }
 
-    async getProfile(token: string): Promise<MProfile> {
+    async getProfile(token: string): Promise<MCompleteProfile> {
         try {
             const res = await this.rq.Get(`${this.baseUrl}`, AuthHeaders(token));
             const { body } = await CheckResponse(res);
-            const profile = body.data as MProfile;
+            const profile = body.data as MCompleteProfile;
             return profile;
         } catch (err: any) {
             throw ThrowFor(err, {

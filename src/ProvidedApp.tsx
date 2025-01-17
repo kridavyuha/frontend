@@ -16,6 +16,8 @@ import { ProfileRepo } from "./logic/Repo/ProfileRepo";
 import { PortfolioStore } from "./logic/Stores/PortfolioStore";
 import { PortfolioRepo } from "./logic/Repo/PortfolioRepo";
 import { Notifications } from '@mantine/notifications';
+import { LeaderboardStore } from "./logic/Stores/LeaderboardStore";
+import { LeaderboardRepo } from "./logic/Repo/LeaderboardRepo";
 
 interface ProvidedAppProps {
     children?: React.ReactNode;
@@ -32,6 +34,7 @@ interface ProvidedAppProps {
     const tradeStore = new TradeStore(new TradeRepo(BASE_URL+"/trade",rq));
     const profileStore = new ProfileStore(new ProfileRepo(BASE_URL+"/profile",rq));
     const portfolioStore = new PortfolioStore(new PortfolioRepo(BASE_URL+"/portfolio",rq));
+    const leaderboardStore = new LeaderboardStore(new LeaderboardRepo(BASE_URL+"/leaderboard",rq));
 
     return (
       <div>
@@ -42,7 +45,8 @@ interface ProvidedAppProps {
             leagueStore,
             tradeStore,
             profileStore,
-            portfolioStore
+            portfolioStore,
+            leaderboardStore
           }}
         >
           {
