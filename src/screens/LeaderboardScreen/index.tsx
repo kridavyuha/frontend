@@ -45,10 +45,8 @@ export const LeaderBoardScreen = observer(() => {
 
     return (
         <div style={{ marginTop: '10px', paddingLeft: '20px', paddingRight: '15px' }}>
-            <Text style={{  fontSize: '24px', marginBottom: '20px', textAlign: 'center' }}>
-              Standings
-            </Text>
-            <Table striped highlightOnHover withTableBorder withColumnBorders>
+          
+            <Table striped highlightOnHover withColumnBorders>
             <Table.Thead>{ths}</Table.Thead>
             <Table.Tbody>{rows}</Table.Tbody>
             </Table>
