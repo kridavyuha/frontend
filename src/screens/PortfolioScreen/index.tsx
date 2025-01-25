@@ -4,11 +4,14 @@ import React, { useEffect, useState } from 'react';
 import { useStores } from '../../logic/Providers/StoreProviders';
 import { PortfolioCard } from './PortfolioCard';
 import { Spinner } from '../../components/Spinner';
+import { MTradeEntity } from '../../logic/Model/MTrade';
 import { MdRocketLaunch } from "react-icons/md";
 
 
 import { observer } from 'mobx-react-lite';
 import { Notify } from '../../components/Notify';
+
+
 
 export const PortfolioScreen: React.FC = observer(() => {
 
@@ -25,6 +28,8 @@ export const PortfolioScreen: React.FC = observer(() => {
 
         fetchPortfolio();
     }, []);
+
+
 
    if (portfolioStore.isLoading === true) {
         return <Spinner/>;

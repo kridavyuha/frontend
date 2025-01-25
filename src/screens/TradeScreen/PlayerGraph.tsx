@@ -7,10 +7,33 @@ import { Spinner } from '../../components/Spinner';
 import { Avatar, Badge, Button, Group, Modal, NumberInput, Stack, Text } from '@mantine/core';
 import { notifications } from '@mantine/notifications';
 import { MTradeEntity } from '../../logic/Model/MTrade';
+import { useWebSocket } from '../../hooks/useWebSocket';
+
+const handleWSMessage = (messages : any, entities: MTradeEntity[]| null) => {
+    const updatedPlayers: MTradeEntity[] = (entities || []).map((player) => {
+        const message: number = messages[0].players[player.player_id];
+        if (message) {
+            // new price
+            console.log("newPrice" ,message)
+            const lastPrice = player.cur_price;
+            const curPrice = message
+            // pos or neg
+            const lastChange = player.last_change;
+            const change = curPrice > 0 ? 'pos' : curPrice < 0 ? 'neg' : lastChange;
+            return {
+                ...player,
+                cur_price: lastPrice + (message),
+                last_change: change,
+            };
+        }
+        return player;
+    });
+    return updatedPlayers;
+}
 
 const PlayerGraph = observer(() => {
     const [searchParams] = useSearchParams();
-    const { tradeStore } = useStores();
+    const { tradeStore, portfolioStore } = useStores();
     const [opened, setOpened] = useState(false);
 
     const [transactShares, setTransactShares] = useState<number>(0);
@@ -28,9 +51,21 @@ const PlayerGraph = observer(() => {
     useEffect(() => {
         const fetchData = async () => {
             await tradeStore.getPlayerGraph(player_id, league_id);
+            await portfolioStore.getPortfolio(league_id);
         };
         fetchData();
     }, []);
+
+    const { isConnected, messages, sendMessage } = useWebSocket({
+        url: 'ws://localhost:8080/ws?league_id=' + league_id + '&match_id=' + match_id,
+    });
+
+    useEffect(() => {
+        if (messages.length > 0) {
+            const updatedPlayers = handleWSMessage(messages, tradeStore.entities);
+            tradeStore.setEntities(updatedPlayers);
+        }
+    }, [messages]);
 
     if (tradeStore.isLoading){
         return <Spinner/>
@@ -53,7 +88,7 @@ const PlayerGraph = observer(() => {
                 </Stack>
                 <Stack ml="auto" gap={2}>
                     <Text size="sm" color="dimmed" ml="auto" fw={700}>{player?.cur_price}</Text>
-                    <Text size="sm" color="dimmed">+18.2(5.1%)</Text>
+                    <Text size="sm" color="dimmed">+{(player?.cur_price || 0) - (player?.base_price ?? 0)}({(((player?.cur_price || 0) - (player?.base_price ?? 0))/(player?.base_price ?? 1)*100).toFixed(2)})</Text>
                 </Stack>
             </Group>
             <LineChart
@@ -74,7 +109,7 @@ const PlayerGraph = observer(() => {
 
         <Button fullWidth mt="md" radius="md" onClick={() => setOpened(true)}>
                 Trade
-            </Button>
+        </Button>
             <Modal opened={opened} onClose={() => setOpened(false)} title="Buy or Sell" centered>
                 <Text>Do you want to Buy or Sell your items?</Text>
 
@@ -99,7 +134,11 @@ const PlayerGraph = observer(() => {
                                 color: 'red'
                             });
                         }
-                    }}>Buy</Button>
+                    }} color='Green'>Buy</Button>
+                    <Stack gap={2}>
+                        <Text>Balance: {portfolioStore.portfolio?.balance}</Text>
+                        <Text>Required: {transactShares * (player?.cur_price ?? 0)}</Text>
+                    </Stack>
                     <Button onClick={() => {
                         if (player) {
                             tradeStore.sellEntity(player.player_id, transactShares);
@@ -114,7 +153,7 @@ const PlayerGraph = observer(() => {
                         notifications.show({
                             message: tradeStore.messages
                         })
-                    }}>Sell</Button>
+                    }} color='Red'>Sell</Button>
                 </Group>
             </Modal>    
 
