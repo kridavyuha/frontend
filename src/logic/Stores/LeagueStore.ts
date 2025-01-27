@@ -7,6 +7,7 @@ export class LeagueStore{
     leagues: MLeague[] = [];
     isLoading: boolean = false;
     leagueRepo: LeagueRepo
+    message: string = "";
 
     constructor(leagueRepo: LeagueRepo) {
         makeAutoObservable(this);
@@ -24,7 +25,7 @@ export class LeagueStore{
 
     async registerLeague(league_id: string) {
         this.setLoading(true);
-        const status :boolean = await this.leagueRepo.registreLeague(league_id, this.token || "");
+        const mes: string = await this.leagueRepo.registreLeague(league_id, this.token || "");
         if(status){
             // for the league_id mark is registered as true
             const league = this.leagues?.find((league) => league.league_id === league_id);
@@ -36,6 +37,7 @@ export class LeagueStore{
                 this.setLeagues(this.leagues);
             }
         }
+        this.setMessage(mes);
         this.setLoading(false);
     }
 
@@ -55,6 +57,11 @@ export class LeagueStore{
         this.setLoading(false);
     }
 
+
+    @action
+    setMessage(message: string) {
+        this.message = message;
+    }   
 
      @action
      setLoading(state: boolean) {

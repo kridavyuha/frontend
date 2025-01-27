@@ -24,11 +24,11 @@ export class LeagueRepo{
         }
       }
 
-    async registreLeague(league_id: string, token: string): Promise<boolean> {
+    async registreLeague(league_id: string, token: string): Promise<string> {
         try {
           const res = await this.rq.Post(`${this.baseUrl}/register?league_id=${league_id}`, {}, AuthHeaders(token));
           const { body } = await CheckResponse(res);
-          return true;
+          return body.data.message;
         } catch (err: any) {
           console.log(err);
           throw ThrowFor(err, {

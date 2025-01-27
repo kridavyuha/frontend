@@ -134,10 +134,10 @@ const PlayerGraph = observer(() => {
                                 color: 'red'
                             });
                         }
-                    }} color='Green'>Buy</Button>
+                    }} >Buy</Button>
                     <Stack gap={2}>
                         <Text>Balance: {portfolioStore.portfolio?.balance}</Text>
-                        <Text>Required: {transactShares * (player?.cur_price ?? 0)}</Text>
+                        <Text>Market Price: {transactShares * (player?.cur_price ?? 0)}</Text>
                     </Stack>
                     <Button onClick={() => {
                         if (player) {
@@ -153,7 +153,7 @@ const PlayerGraph = observer(() => {
                         notifications.show({
                             message: tradeStore.messages
                         })
-                    }} color='Red'>Sell</Button>
+                    }}>Sell</Button>
                 </Group>
             </Modal>    
 
