@@ -56,12 +56,13 @@ function NavBarMobile({ setIsNavBarOpened }: INavBarMobile) {
     <Observer>
       {() => {
         return (
-          <SNavBarMobile>
-            <SMobileBar onClick={() => {
-                navigate("/leaderboard");
+          <SNavBarMobile>              
+
+          <SMobileBar onClick={() => {
+                navigate("/store");
                 setIsNavBarOpened(false);
               }}>
-              <NavbarMobileItem title="Leaderboard" icon={<Award />} />
+              <NavbarMobileItem title="Store" icon={<ShoppingCart />} />
             </SMobileBar>
             
             <SMobileBar onClick={() => {
@@ -70,14 +71,7 @@ function NavBarMobile({ setIsNavBarOpened }: INavBarMobile) {
               }}>
                <NavbarMobileItem title="Rules" icon={<Anchor />}/>
             </SMobileBar>
-          
 
-            <SMobileBar onClick={() => {
-                navigate("/store");
-                setIsNavBarOpened(false);
-              }}>
-              <NavbarMobileItem title="Store" icon={<ShoppingCart />} />
-            </SMobileBar>
 
             <SMobileBar onClick={() => {
                 navigate("/feedback");

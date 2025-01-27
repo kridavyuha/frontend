@@ -23,7 +23,7 @@ interface ProvidedAppProps {
     children?: React.ReactNode;
   }
   
-  const BASE_URL = "http://localhost:8080";
+  const BASE_URL = "http://3.110.142.62:8080"
   
   function ProvidedApp(props: ProvidedAppProps) {
     const rq = new Request({ "Content-Type": "application/json" });

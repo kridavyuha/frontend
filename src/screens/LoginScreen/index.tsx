@@ -53,7 +53,7 @@ const LoginScreen: React.FC = observer(() => {
     
     if (authStage === AUTH_INITIAL) {
         return (
-            <Card shadow="sm" padding="lg">
+            <Card shadow="sm" padding="lg" style={{margin: '50px'}}>
                 <form onSubmit={handleSubmit}>
                     <TextInput
                         label="Username"
