@@ -10,19 +10,19 @@ export class LeagueRepo{
       this.baseUrl = baseUrl;
     }
 
-    async getLeagues(token: string) : Promise<MLeague[]> {
-        try {
-          const res = await this.rq.Get(`${this.baseUrl}`,AuthHeaders(token));
-          const { body } = await CheckResponse(res);
-          const leagues = body.data as MLeague[];
-          return leagues;
-        } catch (err: any) {
-            console.log(err);
-          throw ThrowFor(err, {
-            404: "No such leagues exist.",
-          });
+      async getLeagues(token: string) : Promise<MLeague[]> {
+          try {
+            const res = await this.rq.Get(`${this.baseUrl}`,AuthHeaders(token));
+            const { body } = await CheckResponse(res);
+            const leagues = body.data as MLeague[];
+            return leagues;
+          } catch (err: any) {
+              console.log(err);
+            throw ThrowFor(err, {
+              404: "No such leagues exist.",
+            });
+          }
         }
-      }
 
     async registreLeague(league_id: string, token: string): Promise<string> {
         try {

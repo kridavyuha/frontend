@@ -56,7 +56,7 @@ export const TradeScreen: React.FC =  observer(() => {
     }, []);
 
     const { isConnected, messages, sendMessage } = useWebSocket({
-        url: 'ws://localhost:8080/ws?league_id=' + leagueId + '&match_id=' + matchId,
+        url: 'wss://52.66.49.230/ws/ws?league_id=' + leagueId + '&match_id=' + matchId,
     });
     
 
