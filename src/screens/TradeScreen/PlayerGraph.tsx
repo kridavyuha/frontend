@@ -57,7 +57,7 @@ const PlayerGraph = observer(() => {
     }, []);
 
     const { isConnected, messages, sendMessage } = useWebSocket({
-        url: 'ws://localhost:8080/ws?league_id=' + league_id + '&match_id=' + match_id,
+        url: 'wss://52.66.49.230/ws/ws?league_id=' + league_id + '&match_id=' + match_id,
     });
 
     useEffect(() => {
