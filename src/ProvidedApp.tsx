@@ -23,7 +23,9 @@ interface ProvidedAppProps {
     children?: React.ReactNode;
   }
   
+
   const BASE_URL = "https://52.66.49.230/"
+
   
   function ProvidedApp(props: ProvidedAppProps) {
     const rq = new Request({ "Content-Type": "application/json" });
