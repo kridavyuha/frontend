@@ -55,8 +55,10 @@ export const TradeScreen: React.FC =  observer(() => {
         fetchEntities();
     }, []);
 
+    const WS_URL = import.meta.env.VITE_WS_URL;
+
     const { isConnected, messages, sendMessage } = useWebSocket({
-        url: 'wss://52.66.49.230/ws/ws?league_id=' + leagueId + '&match_id=' + matchId,
+        url: WS_URL+'/ws?league_id=' + leagueId + '&match_id=' + matchId,
     });
     
 

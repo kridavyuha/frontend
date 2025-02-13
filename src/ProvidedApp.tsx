@@ -23,20 +23,20 @@ interface ProvidedAppProps {
     children?: React.ReactNode;
   }
   
+  const BASE_URL = import.meta.env.VITE_API_URL
 
-  const BASE_URL = "https://52.66.49.230/"
 
   
   function ProvidedApp(props: ProvidedAppProps) {
     const rq = new Request({ "Content-Type": "application/json" });
 
     const appStore = new AppStore();
-    const authStore = new AuthStore(new AuthRepo(BASE_URL+"/api/auth",rq));
-    const leagueStore = new LeagueStore(new LeagueRepo(BASE_URL+"/api/leagues",rq));
-    const tradeStore = new TradeStore(new TradeRepo(BASE_URL+"/api/trade",rq));
-    const profileStore = new ProfileStore(new ProfileRepo(BASE_URL+"/api/profile",rq));
-    const portfolioStore = new PortfolioStore(new PortfolioRepo(BASE_URL+"/api/portfolio",rq));
-    const leaderboardStore = new LeaderboardStore(new LeaderboardRepo(BASE_URL+"/api/leaderboard",rq));
+    const authStore = new AuthStore(new AuthRepo(BASE_URL+"/auth",rq));
+    const leagueStore = new LeagueStore(new LeagueRepo(BASE_URL+"/leagues",rq));
+    const tradeStore = new TradeStore(new TradeRepo(BASE_URL+"/trade",rq));
+    const profileStore = new ProfileStore(new ProfileRepo(BASE_URL+"/profile",rq));
+    const portfolioStore = new PortfolioStore(new PortfolioRepo(BASE_URL+"/portfolio",rq));
+    const leaderboardStore = new LeaderboardStore(new LeaderboardRepo(BASE_URL+"/leaderboard",rq));
 
     return (
       <div>

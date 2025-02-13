@@ -56,8 +56,10 @@ const PlayerGraph = observer(() => {
         fetchData();
     }, []);
 
+    const WS_URL = import.meta.env.VITE_WS_URL;
+
     const { isConnected, messages, sendMessage } = useWebSocket({
-        url: 'wss://52.66.49.230/ws/ws?league_id=' + league_id + '&match_id=' + match_id,
+        url:  WS_URL+'/ws?league_id=' + league_id + '&match_id=' + match_id,
     });
 
     useEffect(() => {
