@@ -24,7 +24,8 @@ interface ProvidedAppProps {
   }
   
   const BASE_URL = import.meta.env.VITE_API_URL
-  console.log("Current API URL:", BASE_URL);
+
+
   
   function ProvidedApp(props: ProvidedAppProps) {
     const rq = new Request({ "Content-Type": "application/json" });
