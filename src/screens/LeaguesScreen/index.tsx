@@ -3,7 +3,6 @@ import { LeagueCards } from "./LeagueCard";
 import { useEffect } from "react";
 import { Observer, observer } from "mobx-react-lite";
 import { useStores } from "../../logic/Providers/StoreProviders";
-import { CreateLeague } from "./CreateLeague";
 
 export const LeaguesScreen = observer(() => {
     const { leagueStore } = useStores();
@@ -27,9 +26,7 @@ export const LeaguesScreen = observer(() => {
             </section>
         ) : (
             <Card shadow="sm" padding="lg" radius="md" withBorder style={{ width: "100%" }}>
-                <div className="container p-4 flex justify-center">
-                    <CreateLeague />
-                </div>
+                
                 {leagueStore.leagues.length === 0 ? (
                     <h1>No leagues found</h1>
                 ) : (

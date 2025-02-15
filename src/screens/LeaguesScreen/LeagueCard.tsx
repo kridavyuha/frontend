@@ -63,7 +63,7 @@ export const LeagueCards: React.FC<LeagueCardsProps> = (props: LeagueCardsProps)
             </Group>
 
             <Group align="apart" mt="md">
-                <Button variant="light" color="blue" disabled={is_registered || league_status === "not started" } onClick={async () => {
+                <Button variant="light" color="blue" disabled={is_registered || league_status === "close" } onClick={async () => {
                     await leagueStore.registerLeague(league_id)
                     navigate(`/leagues`)
                 }}>

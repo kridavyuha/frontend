@@ -1,6 +1,7 @@
-import { Card, Group, Badge, Button, Text } from "@mantine/core";
+import { Card, Group, Badge, Button, Text, HoverCard } from "@mantine/core";
 import { useNavigate } from "react-router-dom";
 import { MLeague } from "../../logic/Model/MLeague";
+import { BsTrophy } from "react-icons/bs";
 
 interface LeagueCardsProps {
     data: MLeague;
@@ -14,8 +15,23 @@ export const MyLeagueCards: React.FC<LeagueCardsProps> = (props: LeagueCardsProp
    
     return (
         <Card shadow="sm" padding="lg" radius="md"  className='mb-5' withBorder onClick={() => {navigate(`/trade?leagueId=${league_id}&matchId=${match_id}`)}}>
-            <Group justify="space-between">
-                <Text>League Id : {league_id}</Text>
+            <Group  justify="space-between">
+                <Text fw={700}   color='white' style={{ fontStyle: 'italic', textShadow: '0 0 5px black, 0 0 10px grey , 0 0 15px black' }}>
+                    T20  IPL'25
+                </Text>
+                <HoverCard width={280} shadow="md" >
+                    <HoverCard.Target>
+                    <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
+                        <BsTrophy />
+                        <p style={{ marginLeft: '5px', fontSize: '12px', fontWeight: 'bold' }}>30%</p>
+                    </div>
+                    </HoverCard.Target>
+                    <HoverCard.Dropdown>
+                    <Text size="sm">
+                        Top 30% of the participants will win the prize money
+                    </Text>
+                    </HoverCard.Dropdown>
+            </HoverCard>
             </Group>
             <Group justify="space-between" mt="md" mb="xs">
                 <Text fw={500}>{team_a} vs {team_b}</Text>
