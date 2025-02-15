@@ -6,6 +6,8 @@ import { useStores } from "../../logic/Providers/StoreProviders";
 import { GoTrophy } from "react-icons/go";
 import { HiOutlineBanknotes } from "react-icons/hi2";
 import { IoIosNotificationsOutline } from "react-icons/io";
+import { IoAddCircleOutline } from "react-icons/io5";
+import { useState } from "react";
 
 function BottomBar() {
   const mantineTheme = useMantineTheme();
@@ -24,12 +26,19 @@ function BottomBar() {
             <ActionIcon variant="transparent" onClick={() => {navigate("/portfolios")}}>
               <HiOutlineBanknotes size={"20"} color="grey"/>
             </ActionIcon>
+            <ActionIcon variant="transparent" onClick={() => {navigate("/leagues/create")}}>
+              <IoAddCircleOutline size={"30"} color="grey" />
+            </ActionIcon>
             <ActionIcon variant="transparent" onClick={() => {navigate("/notifications")}}>
                <IoIosNotificationsOutline  size={"25"} color="grey"/>
             </ActionIcon>
             <ActionIcon variant="transparent" onClick={() => {navigate("/profile")}}>
               <User size={"20"} color="grey"/>
             </ActionIcon>
+
+            {/* {showCreateLeague && <CreateLeague />} */}
+
+
             </div>
         );
       }}
