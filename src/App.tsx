@@ -15,6 +15,7 @@ import { WIPScreen } from './screens/WIPScreen';
 import { ProtectedRoutes } from './ProtectedRoute';
 import { Complete } from './screens/TradeScreen';
 import LeaderBoardScreen from './screens/LeaderboardScreen';
+import { CreateLeagueScreen } from './screens/CreateLeagueScreen';
 
 
 const SApp = styled.section`
@@ -70,6 +71,7 @@ const App: React.FC = () => {
                   <Route path="/trade" element={<Complete />} />
                   <Route path="/trade/graph" element={<PlayerGraph />} />
                   <Route path="/leagues" element={<LeaguesScreen />} />
+                  <Route path="/leagues/create" element={<CreateLeagueScreen />} />
                   <Route path="/portfolio" element={<PortfolioScreen />} />
                   <Route path="/notifications" element={<WIPScreen/>}/>
                   <Route path="/portfolios" element={<WIPScreen/>}/>
