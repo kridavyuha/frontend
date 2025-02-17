@@ -90,7 +90,7 @@ const PlayerGraph = observer(() => {
                 </Stack>
                 <Stack ml="auto" gap={2}>
                     <Text size="sm" color="dimmed" ml="auto" fw={700}>{player?.cur_price}</Text>
-                    <Text size="sm" color="dimmed">+{(player?.cur_price || 0) - (player?.base_price ?? 0)}({(((player?.cur_price || 0) - (player?.base_price ?? 0))/(player?.base_price ?? 1)*100).toFixed(2)})</Text>
+                    <Text size="sm" color="dimmed">+{((player?.cur_price || 0) - (player?.base_price ?? 0)).toFixed(2)} ({((((player?.cur_price || 0) - (player?.base_price ?? 0)) / (player?.base_price ?? 1)) * 100).toFixed(2)}%)</Text>
                 </Stack>
             </Group>
             <LineChart
@@ -136,7 +136,7 @@ const PlayerGraph = observer(() => {
                                 color: 'red'
                             });
                         }
-                    }} >Buy</Button>
+                    }} disabled={tradeStore.getTxns() == 0 } >Buy</Button>
                     <Stack gap={2}>
                         <Text>Balance: {portfolioStore.portfolio?.balance}</Text>
                         <Text>Market Price: {transactShares * (player?.cur_price ?? 0)}</Text>
@@ -155,7 +155,7 @@ const PlayerGraph = observer(() => {
                         notifications.show({
                             message: tradeStore.messages
                         })
-                    }}>Sell</Button>
+                    }} disabled={tradeStore.getTxns() == 0 } >Sell</Button>
                 </Group>
             </Modal>    
 

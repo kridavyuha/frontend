@@ -13,6 +13,9 @@ export const Complete = observer(() => {
     
     const { tradeStore } = useStores();
 
+    const txns = tradeStore.txns
+    console.log("txns", txns)
+
     return (
     <div className="flex flex-col items-center">
         <div className="fixed w-full flex justify-center items-center mt-4 ml-10 z-10" style={{ width: '100vw' }}>
@@ -22,12 +25,12 @@ export const Complete = observer(() => {
                     <HoverCard.Target>
                     <div style={{ display: 'flex', flexDirection: 'row', alignItems: 'flex-end'}}>
                         <GrTransaction />
-                        <p style={{ marginLeft: '5px', fontSize: '12px', fontWeight: 'bold' }}>25</p>
+                        <p style={{ marginLeft: '5px', fontSize: '12px', fontWeight: 'bold' }}>{txns}</p>
                     </div>
                     </HoverCard.Target>
                     <HoverCard.Dropdown>
                     <Text size="sm">
-                        25 transactions left
+                        {txns} transactions left
                     </Text>
                     </HoverCard.Dropdown>
             </HoverCard>
