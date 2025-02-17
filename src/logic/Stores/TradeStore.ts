@@ -14,6 +14,7 @@ export class TradeStore{
     isLoading: boolean = false; 
     messages: string = '';
     tab: number = 1;
+    txns: number = 0;
 
     constructor(tradeRepo: TradeRepo) {
         makeAutoObservable(this);
@@ -26,6 +27,9 @@ export class TradeStore{
         this.isLoading = true;
         const trades = await this.tradeRepo.getEntities(this.token, league_id);
         this.setEntities(trades);
+        const transactions = await this.tradeRepo.getTransactions(this.token, league_id);
+        console.log("Transactions", transactions);
+        this.txns = transactions;
         this.isLoading = false;
      
     }
@@ -107,6 +111,10 @@ export class TradeStore{
 
     getPoints() {
         return this.points;
+    }
+
+    getTxns() {
+        return this.txns;
     }
 
 }

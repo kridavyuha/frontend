@@ -25,6 +25,18 @@ export class TradeRepo {
         }
       }
 
+      async getTransactions(token: string, league_id: string): Promise<number> {
+        try {
+          const res = await this.rq.Get(`${this.baseUrl}/txns?league_id=${league_id}`, AuthHeaders(token));
+          const { body } = await CheckResponse(res);
+          return body.data as number;
+        } catch (err: any) {
+          throw ThrowFor(err, {
+            404: "No such entity exists.",
+          });
+        }
+      }
+
       async tranEntity(token: string, player_id: string, shares: number,league_id: string, tran_type: string): Promise<string> {
         try {
           const res = await this.rq.Post(`${this.baseUrl}/transaction?league_id=${league_id}&player_id=${player_id}&transaction_type=${tran_type}`, {
