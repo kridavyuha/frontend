@@ -11,22 +11,37 @@ import { useWebSocket } from '../../hooks/useWebSocket';
 
 const handleWSMessage = (messages : any, entities: MTradeEntity[]| null) => {
     const updatedPlayers: MTradeEntity[] = (entities || []).map((player) => {
-        const message: number = messages[0].players[player.player_id];
-        if (message) {
-            // new price
-            console.log("newPrice" ,message)
-            const lastPrice = player.cur_price;
-            const curPrice = message
-            // pos or neg
-            const lastChange = player.last_change;
-            const change = curPrice > 0 ? 'pos' : curPrice < 0 ? 'neg' : lastChange;
-            return {
-                ...player,
-                cur_price: lastPrice + (message),
-                last_change: change,
-            };
+        // get whether the message is about performancefactor or corefactor
+        if(messages[0].is_perf) {
+            const perfFactor:number  = messages[0].perf_details.perf_factor[player.player_id];
+
+            if (perfFactor) {
+                // new price
+                console.log("Performance factor: " ,perfFactor)
+                const lastPrice = player.cur_price;
+                return {
+                    ...player,
+                    cur_price: lastPrice + (perfFactor),
+                };
+            }
+            return player;
+            
+        } else {
+            const  coreFactor:string  = messages[0].core_details.core_factor[player.player_id];
+            const coreFactorParsed = parseFloat(coreFactor).toFixed(2);
+            const coreFactorRounded = parseFloat(coreFactorParsed)
+            
+            if (coreFactor) {
+                console.log("Core factor: new price is:" ,coreFactorRounded)
+               
+                return {
+                    ...player,
+                    cur_price: coreFactorRounded
+                };
+            }
+            return player;
         }
-        return player;
+        
     });
     return updatedPlayers;
 }
