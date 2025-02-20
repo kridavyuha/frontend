@@ -17,7 +17,7 @@ function NavbarMobileItem(props: NavbarMobileItemProps) {
         width: "100%"
       }}
     >
-      <div className="flex gap-2">
+      <div className="flex gap-2" style={{ alignItems: "center" }}>
         {props.icon}
         {props.title}
       </div>

@@ -17,7 +17,7 @@ function BottomBar() {
   return (
     <Observer>
       {() => {
-        const { appStore } = stores;
+        const { appStore, notificationStore } = stores;
         return (
             <div className="fixed bottom-0 right-0 left-0 z-50 flex h-16 items-center justify-around border border-solid border-transparent border-t-gray-200 bg-gray-100 shadow-md">
             <ActionIcon variant="transparent" onClick={() => {navigate("/leagues")}}>
@@ -30,14 +30,18 @@ function BottomBar() {
               <IoAddCircleOutline size={"30"} color="grey" />
             </ActionIcon>
             <ActionIcon variant="transparent" onClick={() => {navigate("/notifications")}}>
-               <IoIosNotificationsOutline  size={"25"} color="grey"/>
+                 <div className="relative">
+                 <IoIosNotificationsOutline size={"25"} color="grey"/>
+                 {notificationStore.unseenCount > 0 && (
+                     <span className="absolute top-0 right-0 inline-flex items-center justify-center px-1 py-0.5 text-xs font-bold leading-none text-red-100 bg-red-600 rounded-full">
+                     {notificationStore.unseenCount}
+                     </span>
+                 )}
+                 </div>
             </ActionIcon>
             <ActionIcon variant="transparent" onClick={() => {navigate("/profile")}}>
               <User size={"20"} color="grey"/>
             </ActionIcon>
-
-            {/* {showCreateLeague && <CreateLeague />} */}
-
 
             </div>
         );

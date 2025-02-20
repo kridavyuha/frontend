@@ -18,6 +18,8 @@ import { PortfolioRepo } from "./logic/Repo/PortfolioRepo";
 import { Notifications } from '@mantine/notifications';
 import { LeaderboardStore } from "./logic/Stores/LeaderboardStore";
 import { LeaderboardRepo } from "./logic/Repo/LeaderboardRepo";
+import { NotificationStore } from "./logic/Stores/NotificationStore";
+import { NotificationRepo } from "./logic/Repo/NotificationRepo";
 
 interface ProvidedAppProps {
     children?: React.ReactNode;
@@ -37,6 +39,19 @@ interface ProvidedAppProps {
     const profileStore = new ProfileStore(new ProfileRepo(BASE_URL+"/profile",rq));
     const portfolioStore = new PortfolioStore(new PortfolioRepo(BASE_URL+"/portfolio",rq));
     const leaderboardStore = new LeaderboardStore(new LeaderboardRepo(BASE_URL+"/leaderboard",rq));
+    const notificationStore = new NotificationStore(new NotificationRepo(BASE_URL+"/notifications",rq))
+
+
+    useEffect(() => {
+      let interval: any;
+      notificationStore.getNotifications();
+      interval = setInterval(() => {
+        notificationStore.getNotifications();
+      }, 5000);
+      return () => {
+        clearInterval(interval);
+      };
+    }, []);
 
     return (
       <div>
@@ -48,7 +63,8 @@ interface ProvidedAppProps {
             tradeStore,
             profileStore,
             portfolioStore,
-            leaderboardStore
+            leaderboardStore,
+            notificationStore
           }}
         >
           {

@@ -1,0 +1,64 @@
+import { Text, useMantineTheme } from "@mantine/core";
+import { Link } from "react-router-dom";
+import { GrTransaction } from "react-icons/gr";
+import styled from "styled-components";
+import { MNotification } from "../../logic/Model/MNotifications";
+
+
+const SNotificationTile = styled.div<{ bgColor: string; hoverColor: string }>`
+    min-height: 70px;
+    padding: 5px 10px;
+    display: flex;
+    text-decoration: none;
+    color: inherit;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ececec;
+    cursor: pointer;
+    background: ${(p) => p.bgColor};
+    :hover {
+        background: ${(p) => p.hoverColor};
+    }
+`;
+
+const SBullDot = styled.div<{ bgColor: string }>`
+  background: ${(p) => p.bgColor};
+  width: 8px;
+  height: 8px;
+  margin: 0 10px;
+  border-radius: 3px;
+`;
+function NotificationTile(props: MNotification) {
+  const mantineTheme = useMantineTheme();
+  return (
+    <SNotificationTile
+      bgColor={
+        props.status === "Unseen"
+          ? mantineTheme.colors["blue"][0]
+          : mantineTheme.colors["gray"][0]
+      }
+      hoverColor={
+        props.status === "Unseen"
+          ? mantineTheme.colors["blue"][1]
+          : mantineTheme.colors["gray"][1]
+      }
+    >
+      <SBullDot
+        bgColor={
+          props.status !== "Read"
+            ? mantineTheme.colors["blue"][8]
+            : "transparent"
+        }
+      />
+      <div className="flex h-[70px] w-[70px] items-center justify-center p-2">
+      <GrTransaction />
+      </div>
+      <div style={{ marginLeft: "10px", width: "100%" }}> {props.description}</div>
+      <Text color="dimmed" size={"xs"} className="ml-2 min-w-[10%] text-right">
+        
+      </Text>
+    </SNotificationTile>
+  );
+}
+
+export default NotificationTile;
