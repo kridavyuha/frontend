@@ -12,6 +12,7 @@ import styled from "styled-components";
 import { useStores } from "../../logic/Providers/StoreProviders";
 import NavbarMobileItem from "./NavbarMobileItem";
 import { TfiBook } from "react-icons/tfi";
+import { BiTennisBall } from "react-icons/bi";
 
 const SNavBarMobile = styled.div`
   background: white;
@@ -59,10 +60,10 @@ function NavBarMobile({ setIsNavBarOpened }: INavBarMobile) {
           <SNavBarMobile>              
 
           <SMobileBar onClick={() => {
-                navigate("/store");
+                navigate("/playbook");
                 setIsNavBarOpened(false);
               }}>
-              <NavbarMobileItem title="Store" icon={<ShoppingCart />} />
+              <NavbarMobileItem title="Play Book" icon={<BiTennisBall  />} />
             </SMobileBar>
             
             <SMobileBar onClick={() => {
