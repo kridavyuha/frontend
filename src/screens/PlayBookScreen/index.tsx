@@ -1,5 +1,5 @@
 
-import './Playbook.css';
+import './playbook.css';
 
 const Playbook = () => {
     return (
