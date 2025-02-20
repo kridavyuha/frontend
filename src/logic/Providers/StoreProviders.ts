@@ -7,6 +7,7 @@ import { ProfileStore } from "../Stores/ProfileStore";
 import { PortfolioStore } from "../Stores/PortfolioStore";
 import { LeaderboardRepo } from "../Repo/LeaderboardRepo";
 import { LeaderboardStore } from "../Stores/LeaderboardStore";
+import { NotificationStore } from "../Stores/NotificationStore";
 
 interface IStoresContext {
 
@@ -16,7 +17,8 @@ interface IStoresContext {
     tradeStore: TradeStore;
     profileStore: ProfileStore;
     portfolioStore: PortfolioStore;
-    leaderboardStore: LeaderboardStore
+    leaderboardStore: LeaderboardStore;
+    notificationStore: NotificationStore;
    
   }
   
