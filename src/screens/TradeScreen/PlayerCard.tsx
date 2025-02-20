@@ -32,11 +32,10 @@ export const CardLayout: React.FC<CardProps> = ({ player_id, player_name, base_p
     return (
         <div >
             <div>
-            <Card shadow="sm" padding="lg" radius="md" withBorder onClick={() => {
+            <Card shadow="sm" padding="sm" radius="md" withBorder   style={{ height: '180px'}} onClick={() => {
                 navigate(`/trade/graph?player_id=${player_id}&league_id=${league_id}&match_id=${tradeStore.match_id}`);
                 }}>
                
-                <Badge color="pink" ml="auto">{team}</Badge>
                 <Stack justify="center" align="center" mt="md" mb="xs">
                     <Avatar src={`src/assets/${profile_pic}`} alt="it's me" size="lg" />
                     <Text fw={500}>{player_name}</Text>
@@ -55,7 +54,7 @@ export const CardLayout: React.FC<CardProps> = ({ player_id, player_name, base_p
                     )
                     }
                 </div>
-                <Text style={{ marginLeft: '20px' }}>{shares} shares</Text>
+                <Text size="xs" style={{ marginLeft: '20px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{shares} shares</Text>
                 </Text>
                 <div style={{ display: "flex" }}>
                 </div>
