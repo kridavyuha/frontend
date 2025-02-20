@@ -30,6 +30,10 @@ const SBullDot = styled.div<{ bgColor: string }>`
 `;
 function NotificationTile(props: MNotification) {
   const mantineTheme = useMantineTheme();
+
+  var time: number = Math.floor((new Date().getTime() - new Date(props.created_at).getTime()) / (1000))
+  
+
   return (
     <SNotificationTile
       bgColor={
@@ -55,7 +59,16 @@ function NotificationTile(props: MNotification) {
       </div>
       <div style={{ marginLeft: "10px", width: "100%" }}> {props.description}</div>
       <Text color="dimmed" size={"xs"} className="ml-2 min-w-[10%] text-right">
-        
+        {(() => {
+          const seconds = Math.floor((new Date().getTime() - new Date(props.created_at).getTime()) / 1000);
+          if (seconds < 60) return `${seconds} sec ago`;
+          const minutes = Math.floor(seconds / 60);
+          if (minutes < 60) return `${minutes} min ago`;
+          const hours = Math.floor(minutes / 60);
+          if (hours < 24) return `${hours} hr ago`;
+          const days = Math.floor(hours / 24);
+          return `${days} days ago`;
+        })()}
       </Text>
     </SNotificationTile>
   );

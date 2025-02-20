@@ -4,4 +4,5 @@ export interface MNotification {
     actor: number,
     description: string,
     status: string
+    created_at: Date
 }
