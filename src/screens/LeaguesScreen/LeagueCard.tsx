@@ -69,7 +69,7 @@ export const LeagueCards: React.FC<LeagueCardsProps> = (props: LeagueCardsProps)
                 }}>
                     {is_registered ? 'Registered' : 'Register'}
                 </Button>
-                <Button variant="light" color="blue" disabled={!is_registered || league_status === "not started" } onClick={() => {navigate(`/trade?leagueId=${league_id}&matchId=${match_id}`)}}>
+                <Button variant="light" color="blue" disabled={!is_registered || league_status === "not started" || league_status == "close" } onClick={() => {navigate(`/trade?leagueId=${league_id}&matchId=${match_id}`)}}>
                     Enter League
                 </Button>
             </Group>
