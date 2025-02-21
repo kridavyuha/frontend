@@ -19,6 +19,8 @@ import { CreateLeagueScreen } from './screens/CreateLeagueScreen';
 import PlayBookScreen from './screens/PlayBookScreen';
 import RulesScreen from './screens/RulesScreen';
 import NotificaitonScreen from './screens/NotificationScreen';
+import { LandingPageScreen } from './screens/LandingPageScreen';
+import FeedBackScreenIndex from './screens/FeedbackScreen';
 
 
 const SApp = styled.section`
@@ -53,36 +55,39 @@ const App: React.FC = () => {
     <Observer>
       {() => {
         const { appStore } = store;
+        appStore.Me()
         return (
           <Router>
             {/* {appStore.isDesktop && <RightFooterIndex/>} */}
-          
+            
             <SApp
               style={{
                 marginBottom: `${appStore.isPhone ? "70px" : "0px"}`
               }}
               className={!appStore.isPhone ? "mx-3 " : ""}
             >
-            {<TopBar/>}
-            {appStore.isPhone && <BottomBar />}
+            
+            {appStore.isLoggedIn &&<TopBar/>}
+            {appStore.isLoggedIn && appStore.isPhone && <BottomBar />}
                 <Routes>
-                  <Route path="/" element={<LoginScreen />} />
+                
+                 <Route path="/" element={<LandingPageScreen />} />
 
                   <Route element={<ProtectedRoutes />}>
-
+                  
                   <Route path="/profile" element={<UserProfile />} />
                   <Route path="/trade" element={<Complete />} />
                   <Route path="/trade/graph" element={<PlayerGraph />} />
                   <Route path="/leagues" element={<LeaguesScreen />} />
                   <Route path="/leagues/create" element={<CreateLeagueScreen />} />
                   <Route path="/portfolio" element={<PortfolioScreen />} />
-                  <Route path="/notifications" element={<NotificaitonScreen/>}/>
-                  <Route path="/portfolios" element={<WIPScreen/>}/>
-                  <Route path="/leaderboard" element={<LeaderBoardScreen/>}/>
-                  <Route path="/rules" element={<RulesScreen/>}/>
-                  <Route path="/playbook" element={<PlayBookScreen/>}/>
-                  <Route path="/feedback" element={<WIPScreen/>}/>
-                  <Route path="/settings" element={<WIPScreen/>}/>
+                  <Route path="/notifications" element={<NotificaitonScreen />} />
+                  <Route path="/portfolios" element={<WIPScreen />} />
+                  <Route path="/leaderboard" element={<LeaderBoardScreen />} />
+                  <Route path="/rules" element={<RulesScreen />} />
+                  <Route path="/playbook" element={<PlayBookScreen />} />
+                  <Route path="/feedback" element={<FeedBackScreenIndex />} />
+                  <Route path="/settings" element={<WIPScreen />} />
                   
                   </Route>
                 </Routes>

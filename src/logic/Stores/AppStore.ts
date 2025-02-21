@@ -8,7 +8,7 @@ export class AppStore {
   isTablet: boolean = false;
   isDesktop: boolean = false;
   deviceWidth: number = 0;
-
+  isLoggedIn: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
@@ -16,6 +16,18 @@ export class AppStore {
     if (savedTheme) {
       this.theme = savedTheme;
     }
+  }
+
+  Me(){
+    if(window.localStorage.getItem("token") === null){
+      this.isLoggedIn = false
+    }
+    else {
+      this.isLoggedIn = true
+    }
+
+    console.log(this.isLoggedIn)
+    
   }
 
   setTheme(theme: 'light' | 'dark') {
