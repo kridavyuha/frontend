@@ -1,4 +1,4 @@
-import { MPortfolio } from "../Model/MPortfolio";
+import { MActivePorfolios, MPortfolio } from "../Model/MPortfolio";
 import { AuthHeaders, Request } from "../Utils/Fetch";
 import { CheckResponse, ThrowFor } from "../Utils/ResponseHandler";
 
@@ -22,4 +22,19 @@ export class PortfolioRepo {
             });
         }
     }
+
+    async getActivePortfolio(token: string): Promise<MActivePorfolios[]> {
+        try {
+            const res = await this.rq.Get(`${this.baseUrl}/active`, AuthHeaders(token));
+            const { body } = await CheckResponse(res);
+            const portfolio = body.data as MActivePorfolios[];
+            return portfolio;
+        } catch (err: any) {
+            throw ThrowFor(err, {
+                404: "No such portfolio exists.",
+            });
+        }
+    }
+
+
 }

@@ -21,6 +21,7 @@ import RulesScreen from './screens/RulesScreen';
 import NotificaitonScreen from './screens/NotificationScreen';
 import { LandingPageScreen } from './screens/LandingPageScreen';
 import FeedBackScreenIndex from './screens/FeedbackScreen';
+import { ActivePortoflioScreen } from './screens/ActivePortfolioScreen';
 
 
 const SApp = styled.section`
@@ -82,7 +83,7 @@ const App: React.FC = () => {
                   <Route path="/leagues/create" element={<CreateLeagueScreen />} />
                   <Route path="/portfolio" element={<PortfolioScreen />} />
                   <Route path="/notifications" element={<NotificaitonScreen />} />
-                  <Route path="/portfolios" element={<WIPScreen />} />
+                  <Route path="/portfolios" element={<ActivePortoflioScreen/>} />
                   <Route path="/leaderboard" element={<LeaderBoardScreen />} />
                   <Route path="/rules" element={<RulesScreen />} />
                   <Route path="/playbook" element={<PlayBookScreen />} />
