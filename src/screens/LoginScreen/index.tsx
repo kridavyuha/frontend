@@ -6,34 +6,34 @@ import { useNavigate } from 'react-router-dom';
 import { observer } from 'mobx-react-lite';
 import { Spinner } from '../../components/Spinner';
 
+import { Modal } from '@mantine/core';
+
 const AUTH_INITIAL = 0;
 const CHECKING_AUTH = 1;
 const CHECKED_AUTH_LOGGED_IN = 2;
 
+
 const LoginScreen: React.FC = observer(() => {
+    const [opened, setOpened] = useState(true);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
     const { authStore } = useStores();
     const navigate = useNavigate();
 
-
     const [authStage, setAuthStage] = useState(CHECKING_AUTH);
 
     useEffect(() => {
-        const checkLoginStatus = async () => {         
-            const token: string = await authStore.isLoggedIn()
+        const checkLoginStatus = async () => {
+            const token: string = await authStore.isLoggedIn();
             if (token !== "") {
                 setAuthStage(CHECKED_AUTH_LOGGED_IN);
-            }
-            else {
+            } else {
                 setAuthStage(AUTH_INITIAL);
             }
-        
         };
         checkLoginStatus();
     }, []);
-
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -46,14 +46,12 @@ const LoginScreen: React.FC = observer(() => {
     }
 
     if (authStage === CHECKING_AUTH) {
-        return (
-         <Spinner/>
-        );
+        return <Spinner />;
     }
-    
-    if (authStage === AUTH_INITIAL) {
-        return (
-            <Card shadow="sm" padding="lg" style={{margin: '50px'}}>
+
+    return (
+        <Modal opened={opened} onClose={() => setOpened(false)} title="Login">
+            <Card shadow="sm" padding="lg">
                 <form onSubmit={handleSubmit}>
                     <TextInput
                         label="Username"
@@ -75,9 +73,8 @@ const LoginScreen: React.FC = observer(() => {
                     </Button>
                 </form>
             </Card>
-        );
-    }
-    
+        </Modal>
+    );
 });
 
 
