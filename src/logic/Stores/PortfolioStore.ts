@@ -1,5 +1,5 @@
 import { action, makeAutoObservable } from "mobx";
-import { MPortfolio } from "../Model/MPortfolio";
+import { MActivePorfolios, MPortfolio } from "../Model/MPortfolio";
 import { PortfolioRepo } from "../Repo/PortfolioRepo";
 
 export class PortfolioStore {
@@ -7,6 +7,7 @@ export class PortfolioStore {
     portfolio: MPortfolio | null = null;
     isLoading: boolean = false;
     portfolioRepo: PortfolioRepo
+    activePortfolios :MActivePorfolios[] =[]
 
     constructor(portfolioRepo: PortfolioRepo) {
         makeAutoObservable(this);
@@ -25,6 +26,16 @@ export class PortfolioStore {
         this.setPortfolio(portfolio);
         this.setLoading(false);
     }
+
+    @action
+    async getActivePortfolio() {
+        this.setLoading(true);
+        const portfolios: MActivePorfolios[] = await this.portfolioRepo.getActivePortfolio(this.token || "");
+        this.activePortfolios = portfolios
+     
+        this.setLoading(false);
+    }
+    
 
     @action
     setLoading(state: boolean) {

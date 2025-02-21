@@ -5,40 +5,28 @@ import { FaArrowTrendDown, FaArrowTrendUp } from "react-icons/fa6";
 import { Ribbon, RibbonContainer } from "react-ribbons";
 
 export const PortfolioCard = ({ player }: { player: MStocks }) => {
-    const returns = player.cur_price* player.shares - player.invested;
+    const returns = (player.cur_price * player.shares - player.avg_price * player.shares).toFixed(2);
     return (
-        <RibbonContainer>
-            
-            <Card key={player.player_id} shadow="sm" padding="lg" style={{ marginBottom: '1rem' }}>
-            <Ribbon
-                side="left"
-                type="corner"
-                size="normal"
-                backgroundColor="#add8e6"
-                color="#000000"
-                fontFamily="sans"
-                withStripes
-                >
-                   <div style={{marginRight: '5px'}}>
-                   {player.team_name}
-                   </div>
-                </Ribbon>
-            {player.shares > 0 && (
-                
-                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', fontFamily: 'Times New Roman, Times, serif' }}>
-                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', flex: 1, fontSize: '0.8rem', marginLeft: '15px'  }}>
-                        <Text size="sm">{player.player_name}</Text>
-                        <Text size="sm">{player.shares} shares</Text>
+        <Card key={player.player_id} shadow="sm" padding="lg" style={{ marginBottom: '1rem', height: '120px'}}>
+             {player.shares > 0 && (
+                <div style={{ display: 'flex', justifyContent: 'space-between'}}>
+                    <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', width: '45%', padding: '5px'
+                    }}>
+                        <Badge>{player.team_name}</Badge>
+                        <Text style={{ marginTop: '10px', display: 'flex', alignItems: 'flex-start' }}>{player.player_name}</Text>
+                        <Text style={{ fontSize: '0.88rem' , display: 'flex', alignItems: 'flex-start' }}>Shares: {player.shares}</Text>
                     </div>
                     
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start'}}>
-                         <Text size="xs">({player.cur_price*player.shares}) </Text>
-                         <Text size="xs">({1800}) </Text>
-                        
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }} >
+                        <FaArrowTrendDown/>
                     </div>
+
+                <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-end', width: '35%', fontSize: '0.9rem', marginRight: '5px' }}>
+                    <Text style={{ marginLeft: '2px', fontSize: '0.9rem', color: parseFloat(returns) > 0 ? 'green' : 'red' }}>{returns}</Text>
+                    <Text style={{ marginRight: '2px', fontSize: '0.9rem' }}>({player.cur_price})</Text>
+                </div>
                 </div>
             )}
         </Card>
-        </RibbonContainer>
     );
 };
