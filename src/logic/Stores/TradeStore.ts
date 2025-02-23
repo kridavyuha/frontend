@@ -61,7 +61,7 @@ export class TradeStore{
             const formattedData = player.map((item: string) => {
                 const [timestamp, points] = item.split(',');
                 return {
-                    time: new Date(parseInt(timestamp)).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' }),
+                    time: new Date(timestamp),
                     value: parseInt(points),
                 };
             });
@@ -72,6 +72,25 @@ export class TradeStore{
         }
         console.log(toJS(this.getPoints()));
         this.getEntities(league_id);
+    }
+
+    async getOnlyPlayerGraphWithOutEntitiesUpdate(player_id: string, league_id: string){
+        const player: string[]=await this.tradeRepo.getPlayerGraph(this.token, player_id, league_id);
+        if (player.length === 0) {
+            return;
+        }
+        if (Array.isArray(player)) {
+            const formattedData = player.map((item: string) => {
+                const [timestamp, points] = item.split(',');
+                return {
+                    time: new Date(timestamp),
+                    value: parseInt(points),
+                };
+            });
+            this.setPoints(formattedData);
+        } else {
+            console.error("Expected player to be an array, but got:", player);
+        }
     }
 
 
