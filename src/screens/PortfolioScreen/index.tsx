@@ -11,8 +11,46 @@ import { MdRocketLaunch } from "react-icons/md";
 import { observer } from 'mobx-react-lite';
 import { Notify } from '../../components/Notify';
 import { Summary } from './Summary';
+import { useWebSocket } from '../../hooks/useWebSocket';
+import { MPortfolio, MStocks } from '../../logic/Model/MPortfolio';
 
+const handleWSMessage = (messages : any, entities: MPortfolio| null) => {
+    
+    const updatedPlayers: MStocks[] = (entities?.players || []).map((player) => {
+        // get whether the message is about performancefactor or corefactor
+        if(messages[0].is_perf) {
+            const perfFactor:number  = messages[0].perf_details.perf_factor[player.player_id];
 
+            if (perfFactor) {
+                // new price
+                const lastPrice = player.cur_price;
+                return {
+                    ...player,
+                    cur_price: lastPrice + (perfFactor),
+                };
+            }
+            return player;
+            
+        } else {
+            const  coreFactor:string  = messages[0].core_details.core_factor[player.player_id];
+            const coreFactorParsed = parseFloat(coreFactor).toFixed(2);
+            const coreFactorRounded = parseFloat(coreFactorParsed)
+            
+            if (coreFactor) {
+               
+                return {
+                    ...player,
+                    cur_price: coreFactorRounded
+                };
+            }
+            return player;
+        }
+        
+    });
+
+    return updatedPlayers
+
+}
 
 export const PortfolioScreen: React.FC = observer(() => {
 
@@ -32,6 +70,19 @@ export const PortfolioScreen: React.FC = observer(() => {
         fetchPortfolio();
     }, []);
 
+
+    const WS_URL = import.meta.env.VITE_WS_URL;
+
+    const { isConnected, messages, sendMessage } = useWebSocket({
+        url:  WS_URL+'/ws?league_id=' + leagueId + '&match_id=' + matchId,
+    });
+
+    useEffect(() => {
+        if (messages.length > 0) {
+            const updatedStocks = handleWSMessage(messages, portfolioStore.portfolio);
+            portfolioStore.setUpdatedPlayersInPortfolio(updatedStocks);
+        }
+    }, [messages]);
 
 
    if (portfolioStore.isLoading === true) {

@@ -1,7 +1,7 @@
 import { MTradeEntity } from "./MTrade";
 
 export interface MTimeSeries {
-    time: string;
+    time: Date;
     value: number;
     // player: MTradeEntity;
 }
