@@ -17,8 +17,7 @@ const handleWSMessage = (messages : any, entities: MTradeEntity[]| null) => {
             const perfFactor:number  = messages[0].perf_details.perf_factor[player.player_id];
 
             if (perfFactor) {
-                // new price
-                console.log("Performance factor: " ,perfFactor)
+
                 const lastPrice = player.cur_price;
                 return {
                     ...player,
@@ -28,13 +27,11 @@ const handleWSMessage = (messages : any, entities: MTradeEntity[]| null) => {
             return player;
             
         } else {
-            console.log( messages[0].core_details)
             const  coreFactor:string  = messages[0].core_details.core_factor[player.player_id];
             const coreFactorParsed = parseFloat(coreFactor).toFixed(2);
             const coreFactorRounded = parseFloat(coreFactorParsed)
             
             if (coreFactor) {
-                console.log("Core factor: new price is:" ,coreFactorRounded)
                
                 return {
                     ...player,

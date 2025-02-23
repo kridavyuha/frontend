@@ -62,7 +62,7 @@ export class TradeStore{
                 const [timestamp, points] = item.split(',');
                 return {
                     time: new Date(timestamp),
-                    value: parseInt(points),
+                    value: parseFloat(points),
                 };
             });
             console.log(formattedData);
@@ -84,7 +84,7 @@ export class TradeStore{
                 const [timestamp, points] = item.split(',');
                 return {
                     time: new Date(timestamp),
-                    value: parseInt(points),
+                    value: parseFloat(points),
                 };
             });
             this.setPoints(formattedData);

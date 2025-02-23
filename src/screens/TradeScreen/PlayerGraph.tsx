@@ -34,7 +34,6 @@ const handleWSMessage = (messages : any, entities: MTradeEntity[]| null) => {
             const coreFactorRounded = parseFloat(coreFactorParsed)
             
             if (coreFactor) {
-                console.log("Core factor: new price is:" ,coreFactorRounded)
                
                 return {
                     ...player,
@@ -70,17 +69,12 @@ const PlayerGraph = observer(() => {
     useEffect(() => {
         const fetchData = async () => {
             await tradeStore.getPlayerGraph(player_id, league_id);
-            
-        };
-        fetchData();
-    }, []);
-
-    useEffect(() => {
-        const fetchData = async () => {
             await portfolioStore.getPortfolio(league_id);   
         };
         fetchData();
     }, [opened]);
+
+
 
    
 
@@ -134,9 +128,8 @@ const PlayerGraph = observer(() => {
             width: 1.5, // Decrease line thickness
         },
         markers: {
-            size: keyTimestamps.length === 1 ? 6 : 4, // Larger dot if only one point
-            strokeWidth: 2,
-            hover: { size: 8 },
+            size: keyTimestamps.length === 1 ? 6 : 0, // Larger dot if only one point
+           
         },
         xaxis: {
             labels: {
@@ -160,9 +153,6 @@ const PlayerGraph = observer(() => {
 
     return (
         <div style={{ margin: '30px 10px 10px' }}>
-            {/* <Text style={{textAlign:'center'}} size="xl" fw={700} >
-                Detailed Analysis
-            </Text> */}
             <Group  mt="md" mb="xs" style={{paddingTop:'18px',paddingBottom:'30px'}}>
                 
                 <Avatar alt="it's me" size="lg" />
@@ -196,9 +186,9 @@ const PlayerGraph = observer(() => {
                 />
                 <Group justify="space-between" mt="md">
                     <Button
-                        onClick={() => {
+                        onClick={async () => {
                             if (player) {
-                                tradeStore.buyEntity(player.player_id, transactShares);
+                                await tradeStore.buyEntity(player.player_id, transactShares);
                                 setTransactShares(0);
                                 setOpened(false);
                                 notifications.show({
@@ -226,20 +216,20 @@ const PlayerGraph = observer(() => {
                         </Text>
                     </Stack>
                     <Button
-                        onClick={() => {
+                        onClick={async () => {
                             if (player) {
-                                tradeStore.sellEntity(player.player_id, transactShares);
+                                await tradeStore.sellEntity(player.player_id, transactShares);
+                                setTransactShares(0);
+                                setOpened(false);
+                                notifications.show({
+                                    message: tradeStore.messages,
+                                });
                             } else {
                                 notifications.show({
                                     message: 'Player not found',
                                     color: 'red',
                                 });
                             }
-                            setTransactShares(0);
-                            setOpened(false);
-                            notifications.show({
-                                message: tradeStore.messages,
-                            });
                         }}
                         disabled={
                             (player?.shares ?? 0) === 0 || transactShares > (player?.shares ?? 0)

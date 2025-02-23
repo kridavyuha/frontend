@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx';
+import { action, makeAutoObservable } from 'mobx';
 
 const THEME_KEY = 'theme';
 
@@ -19,15 +19,13 @@ export class AppStore {
   }
 
   Me(){
+    //TODO: this is to be updated with the backend check.
     if(window.localStorage.getItem("token") === null){
-      this.isLoggedIn = false
+     this.setIsLoggedIn(false)
     }
     else {
-      this.isLoggedIn = true
-    }
-
-    console.log(this.isLoggedIn)
-    
+      this.setIsLoggedIn(true)
+    }    
   }
 
   setTheme(theme: 'light' | 'dark') {
@@ -55,6 +53,11 @@ export class AppStore {
 
   setDeviceWidth(state: number) {
     this.deviceWidth = state;
+  }
+
+  @action
+  setIsLoggedIn(state: boolean){
+    this.isLoggedIn = state
   }
 }
 

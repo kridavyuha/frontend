@@ -1,5 +1,5 @@
 
-import { makeAutoObservable } from "mobx";
+import { action, makeAutoObservable } from "mobx";
 
 import { MNotification } from "../Model/MNotifications";
 import { NotificationRepo } from "../Repo/NotificationRepo";
@@ -27,8 +27,20 @@ export class NotificationStore{
                 unseenCount ++;
             }
         })
-        this.unseenCount = unseenCount
+        this.setUnseenCount(unseenCount)
         this.setLoading(false)
+    }
+
+    async getNotificationsForPooling(){
+        const notifications:MNotification[] = await this.notificationRepo.getNotifications(this.token)
+        this.notifications = notifications
+        var unseenCount : number = 0;
+        notifications.forEach((notification)=>{
+            if(notification.status === "unseen"){
+                unseenCount ++;
+            }
+        })
+       this.setUnseenCount(unseenCount)
     }
     
     async updateStatus(){
@@ -37,8 +49,12 @@ export class NotificationStore{
         this.unseenCount = 0;
         console.log("unseen count", this.unseenCount)
     }
-
+    @action
     setLoading(state: boolean){
         this.isLoading = state;
+    }
+    @action
+    setUnseenCount(unseen: number){
+        this.unseenCount = unseen
     }
 }

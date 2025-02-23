@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { MNotification } from "../../logic/Model/MNotifications";
 
 
-const SNotificationTile = styled.div<{ bgColor: string; hoverColor: string }>`
+const SNotificationTile = styled.div<{ bgcolor: string; hovercolor: string }>`
     min-height: 70px;
     padding: 5px 10px;
     display: flex;
@@ -15,14 +15,14 @@ const SNotificationTile = styled.div<{ bgColor: string; hoverColor: string }>`
     align-items: center;
     border-bottom: 1px solid #ececec;
     cursor: pointer;
-    background: ${(p) => p.bgColor};
+    background: ${(p) => p.bgcolor};
     :hover {
-        background: ${(p) => p.hoverColor};
+        background: ${(p) => p.hovercolor};
     }
 `;
 
-const SBullDot = styled.div<{ bgColor: string }>`
-  background: ${(p) => p.bgColor};
+const SBullDot = styled.div<{ bgcolor: string }>`
+  background: ${(p) => p.bgcolor};
   width: 8px;
   height: 8px;
   margin: 0 10px;
@@ -36,19 +36,19 @@ function NotificationTile(props: MNotification) {
 
   return (
     <SNotificationTile
-      bgColor={
+      bgcolor={
         props.status === "Unseen"
           ? mantineTheme.colors["blue"][0]
           : mantineTheme.colors["gray"][0]
       }
-      hoverColor={
+      hovercolor={
         props.status === "Unseen"
           ? mantineTheme.colors["blue"][1]
           : mantineTheme.colors["gray"][1]
       }
     >
       <SBullDot
-        bgColor={
+        bgcolor={
           props.status !== "Read"
             ? mantineTheme.colors["blue"][8]
             : "transparent"
