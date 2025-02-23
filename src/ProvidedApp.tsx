@@ -44,9 +44,9 @@ interface ProvidedAppProps {
 
     useEffect(() => {
       let interval: any;
-      notificationStore.getNotifications();
+      notificationStore.getNotificationsForPooling();
       interval = setInterval(() => {
-        notificationStore.getNotifications();
+        notificationStore.getNotificationsForPooling();
       }, 5000);
       return () => {
         clearInterval(interval);

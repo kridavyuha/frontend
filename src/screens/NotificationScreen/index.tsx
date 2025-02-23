@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { observer } from "mobx-react-lite";
 import { MNotification } from "../../logic/Model/MNotifications";
 import NotificationTile from "./NotificaitonTile";
+import { Spinner } from "../../components/Spinner";
 
 const SNotificationIndex = styled.section`
   height: 100%;
@@ -18,8 +19,10 @@ const NotificaitonScreen = observer(() => {
     const {notificationStore} = useStores();
 
     useEffect(()=>{
-        notificationStore.getNotifications()
-        // mark all the notifications as seen.
+      const fetchData = async () => {
+        await notificationStore.getNotifications()
+    };
+    fetchData();
     }, [])
 
     useEffect(()=>{
@@ -27,7 +30,15 @@ const NotificaitonScreen = observer(() => {
     },[])
 
     const notifications: MNotification[] = notificationStore.notifications || []
+
+    if (notificationStore.isLoading === true) {
+      return (
+          <Spinner/>
+      );
+  }
+  else {
   return (
+    
     <SNotificationIndex>
         {notifications.length === 0 ? (
         <b className="flex h-[140px] w-full items-center justify-center text-center text-gray-400">
@@ -40,6 +51,7 @@ const NotificaitonScreen = observer(() => {
         )}
     </SNotificationIndex>
   );
+}
 });
 
 export default NotificaitonScreen
