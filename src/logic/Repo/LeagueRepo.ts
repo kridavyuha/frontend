@@ -49,7 +49,7 @@ export class LeagueRepo{
         }
       }
 
-      async createLeague(match_id: string, entry_fee: number, capacity: number, token: string): Promise<void> {
+      async createLeague(match_id: string, entry_fee: number, capacity: number, token: string): Promise<string> {
         try {
           const res = await this.rq.Post(`${this.baseUrl}/create`, { 
             match_id: match_id, 
@@ -57,7 +57,7 @@ export class LeagueRepo{
             capacity: capacity 
           }, AuthHeaders(token));
           const { body } = await CheckResponse(res);
-          return body;
+          return body.message;
         } catch (err: any) {
           throw ThrowFor(err, {
             404: "No such league exists.",

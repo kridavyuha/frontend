@@ -33,9 +33,11 @@ export class LeagueStore{
                 league.is_registered = true;
                 league.registered += 1;
             }
-            if (this.leagues) {
-                this.setLeagues(this.leagues);
-            }
+            // update this leagues with this
+             const updatedLeagues = this.leagues.map((league) =>
+                league.league_id === league_id ? { ...league} : league
+              );
+              this.setLeagues(updatedLeagues);
         }
         this.setMessage(mes);
         this.setLoading(false);
@@ -52,8 +54,9 @@ export class LeagueStore{
 
     async createLeague(match_id: string, entry_fee: number, capacity: number) {
         this.setLoading(true);
-        await this.leagueRepo.createLeague(match_id, entry_fee, capacity, this.token || "");
+        const message = await this.leagueRepo.createLeague(match_id, entry_fee, capacity, this.token || "");
         this.getLeagues();
+        this.setMessage(message)
         this.setLoading(false);
     }
 

@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Text, Group, Badge, Button, Stack, HoverCard, Drawer } from '@mantine/core';
-import { AiOutlineDelete } from 'react-icons/ai';
 import { MLeague } from '../../logic/Model/MLeague';
 import { useStores } from '../../logic/Providers/StoreProviders';
 import { useNavigate } from 'react-router-dom';
 import { BsTrophy } from "react-icons/bs";
-import { IoIosInformationCircleOutline } from "react-icons/io";
 import { useDisclosure } from '@mantine/hooks';
 import { FaIndianRupeeSign } from "react-icons/fa6";
 import { RiArrowDropDownLine } from "react-icons/ri";
+import { notifications } from '@mantine/notifications';
 
 interface LeagueCardsProps {
     data: MLeague;
@@ -27,16 +26,10 @@ export const LeagueCards: React.FC<LeagueCardsProps> = (props: LeagueCardsProps)
     const prizeDistribution = [14, 10, 7, 5, 5, 5, 4, 4, 4, 4, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 1, 1];
     const totalPrize =  entry_fee * capacity;
     const prizeList = prizeDistribution.map(percentage => (totalPrize * percentage) / 100);
+    console.log("Componenet rendered with isRegistered: ",is_registered)
    
     return (
         <Card shadow="sm" padding="lg" radius="md"  className='mb-5' withBorder >
-            {/* <Group justify="space-between">
-                <Text>League Id : {league_id}</Text>
-                <AiOutlineDelete onClick={
-                    ()=>{leagueStore.deleteLeague(league_id)    }
-                }/>
-            </Group> */}
-
             <Group  justify="space-between">
                 <Text fw={700}   color='white' style={{ fontStyle: 'italic', textShadow: '0 0 5px black, 0 0 10px grey , 0 0 15px black' }}>
                     T20  IPL'25
@@ -64,8 +57,10 @@ export const LeagueCards: React.FC<LeagueCardsProps> = (props: LeagueCardsProps)
 
             <Group align="apart" mt="md">
                 <Button variant="light" color="blue" disabled={is_registered || league_status === "close" } onClick={async () => {
-                    await leagueStore.registerLeague(league_id)
-                    navigate(`/leagues`)
+                    await leagueStore.registerLeague(league_id);
+                    notifications.show({
+                        message: leagueStore.message,
+                    })
                 }}>
                     {is_registered ? 'Registered' : 'Register'}
                 </Button>
