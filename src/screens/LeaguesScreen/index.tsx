@@ -7,6 +7,9 @@ import { useStores } from "../../logic/Providers/StoreProviders";
 export const LeaguesScreen = observer(() => {
     const { leagueStore } = useStores();
 
+    console.log("Leagues component getting re-triggered.......")
+    console.log("Leagues ", leagueStore.leagues)
+
     useEffect(() => {
         leagueStore.getLeagues();
     }, []);
