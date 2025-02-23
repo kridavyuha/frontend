@@ -1,5 +1,5 @@
 import { action, makeAutoObservable } from "mobx";
-import { MActivePorfolios, MPortfolio } from "../Model/MPortfolio";
+import { MActivePorfolios, MPortfolio, MStocks } from "../Model/MPortfolio";
 import { PortfolioRepo } from "../Repo/PortfolioRepo";
 
 export class PortfolioStore {
@@ -45,6 +45,12 @@ export class PortfolioStore {
     @action
     setPortfolio(portfolio: MPortfolio) {
         this.portfolio = portfolio;
+    }
+
+    setUpdatedPlayersInPortfolio(updatedPlayers: MStocks[]){
+        if (this.portfolio) {
+            this.portfolio.players = updatedPlayers; // Ensure portfolio exists before assigning
+        }
     }
 
     

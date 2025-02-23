@@ -18,11 +18,15 @@ export const PortfolioCard = ({ player }: { player: MStocks }) => {
                     </div>
                     
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center' }} >
-                        <FaArrowTrendDown/>
+                        {parseFloat(returns) > 0 ? <FaArrowTrendUp /> : parseFloat(returns) < 0 ? <FaArrowTrendDown /> : null}
                     </div>
 
                 <div style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'flex-end', width: '35%', fontSize: '0.9rem', marginRight: '5px' }}>
-                    <Text style={{ marginLeft: '2px', fontSize: '0.9rem', color: parseFloat(returns) > 0 ? 'green' : 'red' }}>{returns}</Text>
+                    {parseFloat(returns) !== 0 && (
+                        <Text style={{ marginLeft: '2px', fontSize: '0.9rem', color: parseFloat(returns) > 0 ? 'green' : 'red' }}>
+                            {returns}
+                        </Text>
+                    )}
                     <Text style={{ marginRight: '2px', fontSize: '0.9rem' }}>({player.cur_price})</Text>
                 </div>
                 </div>
