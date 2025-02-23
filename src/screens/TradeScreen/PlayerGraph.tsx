@@ -159,11 +159,11 @@ const PlayerGraph = observer(() => {
 
 
     return (
-        <div style={{ margin: '50px 10px 10px' }}>
-            <Text style={{textAlign:'center'}} size="xl" fw={700} >
+        <div style={{ margin: '30px 10px 10px' }}>
+            {/* <Text style={{textAlign:'center'}} size="xl" fw={700} >
                 Detailed Analysis
-            </Text>
-            <Group  mt="md" mb="xs" style={{paddingTop:'30px',paddingBottom:'55px'}}>
+            </Text> */}
+            <Group  mt="md" mb="xs" style={{paddingTop:'18px',paddingBottom:'30px'}}>
                 
                 <Avatar alt="it's me" size="lg" />
                 <Stack ml={15}>
@@ -177,7 +177,7 @@ const PlayerGraph = observer(() => {
             </Group>
 
     <div className="w-full p-4 bg-white shadow-lg rounded-2xl">
-      <ReactApexChart options={options} series={series} type="area" height={300} />
+      <ReactApexChart options={options} series={series} type="area" height={280} />
     </div>      
      
 
