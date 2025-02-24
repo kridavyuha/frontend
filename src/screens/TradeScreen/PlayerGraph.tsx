@@ -69,16 +69,11 @@ const PlayerGraph = observer(() => {
     useEffect(() => {
         const fetchData = async () => {
             await portfolioStore.getPortfolio(league_id);  
-        };
+            await tradeStore.getPlayerGraph(player_id, league_id); 
+            
+        }; 
         fetchData();
     }, [opened]);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            await tradeStore.getPlayerGraph(player_id, league_id);  
-        };
-        fetchData();
-    }, []);
 
    
 
@@ -92,7 +87,6 @@ const PlayerGraph = observer(() => {
         if (messages.length > 0) {
             const updatedPlayers = handleWSMessage(messages, tradeStore.entities);
             tradeStore.setEntities(updatedPlayers);
-            // update points of this player :
             tradeStore.getOnlyPlayerGraphWithOutEntitiesUpdate(player_id,league_id)
         }
     }, [messages]);
