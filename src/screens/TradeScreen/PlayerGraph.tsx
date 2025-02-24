@@ -125,9 +125,6 @@ const PlayerGraph = observer(() => {
         stroke: {
             width: 1.5, // Decrease line thickness
         },
-        fill: {
-            type: "none", // Prevents the area from being filled
-        },
         markers: {
             size: keyTimestamps.length === 1 ? 6 : 0, // Larger dot if only one point
            
