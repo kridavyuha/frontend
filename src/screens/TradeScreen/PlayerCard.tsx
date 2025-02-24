@@ -27,7 +27,9 @@ export const CardLayout: React.FC<CardProps> = ({ player_id, player_name, base_p
     const navigate = useNavigate();
 
 
-   
+    const teamNameUpperCase:string = team.toUpperCase()
+    const playerNameWithoutSpace = player_name.replace(/ /g, "_");
+ 
    
     return (
         <div >
@@ -37,7 +39,7 @@ export const CardLayout: React.FC<CardProps> = ({ player_id, player_name, base_p
                 }}>
                
                 <Stack justify="center" align="center" mt="md" mb="xs">
-                    <Avatar src={`src/assets/${profile_pic}`} alt="it's me" size="lg" />
+                    <Avatar src={`src/assets/${teamNameUpperCase}/${playerNameWithoutSpace}.png`} alt="it's me" size="lg" />
                     <Text fw={500}>{player_name}</Text>
                 </Stack>
 
