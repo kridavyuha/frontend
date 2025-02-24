@@ -18,7 +18,7 @@ const LoginScreen: React.FC = observer(() => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
-    const { authStore } = useStores();
+    const { authStore,appStore } = useStores();
     const navigate = useNavigate();
 
     const [authStage, setAuthStage] = useState(CHECKING_AUTH);
@@ -50,7 +50,10 @@ const LoginScreen: React.FC = observer(() => {
     }
 
     return (
-        <Modal opened={opened} onClose={() => setOpened(false)} title="Login">
+        <Modal opened={opened} onClose={() => {
+            setOpened(false)
+            appStore.isModalOpened = false
+        }} title="Login">
             <Card shadow="sm" padding="lg">
                 <form onSubmit={handleSubmit}>
                     <TextInput
