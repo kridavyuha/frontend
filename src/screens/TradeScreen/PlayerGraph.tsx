@@ -55,6 +55,7 @@ const PlayerGraph = observer(() => {
     const [opened, setOpened] = useState(false);
 
     const [transactShares, setTransactShares] = useState<number>(0);
+    const [shares, setShares] = useState<number>(0)
 
     var player : MTradeEntity | null ;
 
@@ -69,11 +70,24 @@ const PlayerGraph = observer(() => {
     useEffect(() => {
         const fetchData = async () => {
             await portfolioStore.getPortfolio(league_id);  
-            await tradeStore.getPlayerGraph(player_id, league_id); 
-            
+            // number of shares should be updated when reopend.
+            // write a different enpoint which just serves shares of the current player u hold.
+            // or fcking get it from the above loaded portfolio
+            portfolioStore.portfolio?.players.forEach((player)=>{
+                if(player.player_id === player_id){
+                    setShares(player.shares)
+                }
+            })
         }; 
         fetchData();
     }, [opened]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            await tradeStore.getPlayerGraph(player_id, league_id);    
+        }; 
+        fetchData();
+    }, []);
 
    
 
@@ -178,7 +192,7 @@ const PlayerGraph = observer(() => {
                 <NumberInput
                     value={transactShares}
                     onChange={(value) => setTransactShares(Math.max(0, value as number))}
-                    label={`Holds ${player?.shares ?? 0} unit of this player`}
+                    label={`Holds ${shares?? 0} unit of this player`}
                     style={{ padding: '10px' }}
                     min={1}
                 />
@@ -230,7 +244,7 @@ const PlayerGraph = observer(() => {
                             }
                         }}
                         disabled={
-                            (player?.shares ?? 0) === 0 || transactShares > (player?.shares ?? 0)
+                            (shares ?? 0) === 0 || transactShares > (shares ?? 0)
                         }
                     >
                         Sell
