@@ -2,19 +2,25 @@ import { motion } from "framer-motion";
 import { Button, Text } from "@mantine/core"
 import LoginScreen from "../LoginScreen"
 import { useState } from "react";
+import { useStores } from "../../logic/Providers/StoreProviders";
+import { observer } from "mobx-react-lite";
 
-export const LandingPageScreen: React.FC = () => {
-    const [modal, setModal] = useState(false);
+export const LandingPageScreen: React.FC = observer(() => {
+
+    const {appStore} = useStores();
 
     const caption = "Kridavyuha";
   
     return (
      <div>
-      <div className="relative min-h-screen flex flex-col justify-center items-center text-center p-4 bg-cover bg-center overflow-hidden m-4">
+      <div className="fixed min-h-screen flex flex-col justify-center items-center text-center p-4 bg-cover bg-center overflow-hidden" style={{marginBottom:'500px'}}>
       
         <div className="absolute inset-0 bg-opacity-50"></div>
+        <Text style={{ fontSize: '1rem', color: 'black', fontWeight: 'bold'}}>
+           Where Passion Meets Strategy – Designed by True Cricket Enthusiasts!
+        </Text>
        
-        <div className="relative z-10 flex flex-col items-center mt-8" style={{ transform: 'translateY(-60px)' }}>
+        <div className="relative z-10 flex flex-col items-center mt-8" >
 
         <motion.h1 className="text-3xl md:text-5xl font-bold text-black mb-2 flex justify-center">
             {caption.split("").map((char, index) => (
@@ -59,13 +65,14 @@ export const LandingPageScreen: React.FC = () => {
             transition={{ duration: 0.8, delay: 0.5 }}
             className="mt-4"
           >
-            <Button className="bg-white text-blue-600 px-4 py-2 text-base rounded-full shadow-lg hover:bg-gray-200 transition-all" onClick={() => setModal(true)}>
+            <Button className="bg-white text-blue-600 px-4 py-2 text-base rounded-full shadow-lg hover:bg-gray-200 transition-all" onClick={() => appStore.isModalOpened = true}>
               Get Started
             </Button>
           </motion.div>
-          {modal && <LoginScreen />}
+          {appStore.isModalOpened && <LoginScreen />}
         </div>
       </div>
      </div>
     );
 }
+);

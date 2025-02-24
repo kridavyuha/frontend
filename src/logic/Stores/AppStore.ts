@@ -9,6 +9,7 @@ export class AppStore {
   isDesktop: boolean = false;
   deviceWidth: number = 0;
   isLoggedIn: boolean = false;
+  isModalOpened: boolean = false;
 
   constructor() {
     makeAutoObservable(this);
