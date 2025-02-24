@@ -65,16 +65,20 @@ const PlayerGraph = observer(() => {
     tradeStore.setLeagueId(league_id);
     tradeStore.setMatchId(match_id);
 
-
+    
     useEffect(() => {
         const fetchData = async () => {
-            await tradeStore.getPlayerGraph(player_id, league_id);
-            await portfolioStore.getPortfolio(league_id);   
+            await portfolioStore.getPortfolio(league_id);  
         };
         fetchData();
     }, [opened]);
 
-
+    useEffect(() => {
+        const fetchData = async () => {
+            await tradeStore.getPlayerGraph(player_id, league_id);  
+        };
+        fetchData();
+    }, []);
 
    
 

@@ -35,10 +35,10 @@ export class TradeStore{
     }
 
     async buyEntity(entity_id: string, shares: number) {
-        const message : string = await this.tradeRepo.tranEntity(this.token, entity_id, shares, this.league_id || "", "buy");
-        
+        const message : string = await this.tradeRepo.tranEntity(this.token, entity_id, shares, this.league_id || "", "buy");  
         console.log(message);   
         this.getEntities(this.league_id || ""); 
+        // update balance here ...
         this.setMessages(message);
     }
 
@@ -51,6 +51,7 @@ export class TradeStore{
 
     //TODO:  As this is being called from PlayerGraph screen we should use the league id coming from the search params. 
     async getPlayerGraph(player_id: string, league_id: string) {
+        this.setLoading(true)
         console.log(player_id, this.league_id);
         const player: string[]=await this.tradeRepo.getPlayerGraph(this.token, player_id, league_id);
         console.log("Player", player);
@@ -71,7 +72,14 @@ export class TradeStore{
             console.error("Expected player to be an array, but got:", player);
         }
         console.log(toJS(this.getPoints()));
-        this.getEntities(league_id);
+        
+        const trades = await this.tradeRepo.getEntities(this.token, league_id);
+        this.setEntities(trades);
+        const transactions = await this.tradeRepo.getTransactions(this.token, league_id);
+        console.log("Transactions", transactions);
+        this.txns = transactions;
+
+        this.setLoading(false)
     }
 
     async getOnlyPlayerGraphWithOutEntitiesUpdate(player_id: string, league_id: string){
